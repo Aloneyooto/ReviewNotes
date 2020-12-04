@@ -449,20 +449,6 @@ jdk是通过UNSAFE类对堆内存中对象的属性进行直接的读取和写�
 - 必须在没有安全限制的环境中运行
 - 可移植性差
 
-## 集合
-
-![](https://yueqilai-images.oss-cn-beijing.aliyuncs.com/20171110225615382.png)
-
-## Arrays.asList为什么不能增加或修改
-
-1.返回的是**内部类**，而内部类对元素的定义是final
-
-```
-private final E[] a;
-```
-
-2.Arrays继承了AbstractList<E>，而在AbstractList中U对add方法天然就会抛出异常`throw new UnsupportedOperationException();`，平时我们使用的都是ArrayList的add方法，它是进行了重写；
-
 ## 动态代理（没看懂）
 
 https://www.zhihu.com/question/20794107
@@ -474,6 +460,20 @@ https://www.zhihu.com/question/20794107
 CGLib创建的动态代理对象性能比JDK创建的动态代理对象的性能高不少，但是CGLib在创建代理对象时所花费的时间却比JDK多得多，所以对于单例的对象，因为无需频繁创建对象，用CGLib合适，反之，使用JDK方式要更为合适一些。同时，由于CGLib由于是采用动态创建子类的方法，对于final方法，无法进行代理。
 
 JDK动态代理在调用方法时，使用了反射技术来调用被拦截的方法，效率低下，CGLib底层采用ASM字节码生成框架，使用字节码技术生成代理类，比使用Java反射效率要高。并且CGLIB采用`fastclass`机制来进行调用，对一个类的方法建立索引，通过索引来直接调用相应的方法。唯一需要注意的是，CGLib不能对声明为final的方法进行代理。
+
+## 集合
+
+![](https://yueqilai-images.oss-cn-beijing.aliyuncs.com/20171110225615382.png)
+
+### Arrays.asList为什么不能增加或修改
+
+1.返回的是**内部类**，而内部类对元素的定义是final
+
+```
+private final E[] a;
+```
+
+2.Arrays继承了AbstractList<E>，而在AbstractList中U对add方法天然就会抛出异常`throw new UnsupportedOperationException();`，平时我们使用的都是ArrayList的add方法，它是进行了重写；
 
 ### hashmap1.7和1.8的区别
 
@@ -607,6 +607,10 @@ https://mp.weixin.qq.com/s?__biz=MzIxNTQ4MzE1NA==&mid=2247484354&idx=1&sn=80c928
 ArrayBlockingQueue内部的阻塞队列是通过重入锁ReenterLock和Condition条件队列实现的，所以ArrayBlockingQueue中的元素存在公平访问与非公平访问的区别，对于公平访问队列，被阻塞的线程可以按照阻塞的先后顺序访问队列，即先阻塞的线程先访问队列。而非公平队列，当队列可用时，阻塞的线程将进入争夺访问资源的竞争中，也就是说谁先抢到谁就执行，没有固定的先后顺序。
 
 https://blog.csdn.net/javazejian/article/details/77410889
+
+## 生产者消费者模式的实现（还没写）
+
+
 
 ## 创建线程的三种方式
 
@@ -895,6 +899,113 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
 ## 全盘负责
 
 “全盘负责”是指当一个ClassLoader装载一个类时，除非显示地使用另一个ClassLoader，则该类所依赖及引用的类也由这个ClassLoader载入。
+
+## 并发标记
+
+https://segmentfault.com/a/1190000021820577
+
+在遍历对象图的过程中，把访问都的对象**按照"是否访问过"这个条件**标记成以下三种颜色：
+
+**白色：表示对象尚未被垃圾回收器访问过**。显然，在可达性分析刚刚开始的阶段，所有的对象都是白色的，若在分析结束的阶段，仍然是白色的对象，即代表不可达。
+
+**黑色：表示对象已经被垃圾回收器访问过，且这个对象的所有引用都已经扫描过**。黑色的对象代表已经扫描过，它是安全存活的，如果有其它的对象引用指向了黑色对象，无须重新扫描一遍。黑色对象不可能直接（不经过灰色对象）指向某个白色对象。
+
+**灰色：表示对象已经被垃圾回收器访问过，但这个对象至少存在一个引用还没有被扫描过**。
+
+![img](https://gitee.com/xurunxuan/picgo/raw/master/img/1460000021820594)
+
+怎么解决"对象消失"问题呢？
+
+条件一：赋值器插入了一条或者多条从黑色对象到白色对象的新引用。
+
+条件二：赋值器删除了全部从灰色对象到该白色对象的直接或间接引用。
+
+你在结合我们上面出现过的图捋一捋上面的这两个条件，是不是当且仅当的关系：
+
+黑色对象5到白色对象9之间的引用是新建的，对应条件一。
+
+黑色对象6到白色对象9之间的引用被删除了，对应条件二。
+
+![img](https://gitee.com/xurunxuan/picgo/raw/master/img/1460000021820598)
+
+**CMS是基于增量更新来做并发标记的，G1则采用的是原始快照的方式。**
+
+增量更新
+
+黑色对象一旦插入了指向白色对象的引用之后，它就变回了灰色对象。
+
+原始快照
+
+无论引用关系删除与否，都会按照刚刚开始扫描那一刻的对象图快照开进行搜索。
+
+## G1收集器原理
+
+https://segmentfault.com/a/1190000021878102
+
+![img](https://gitee.com/xurunxuan/picgo/raw/master/img/1460000021878115)
+
+h表示大对象
+
+G1的堆内存被划分为多个大小相等的 Region ，但是 Region 的总个数在 2048 个左右，默认是 2048 。对于一个 Region 来说，是逻辑连续的一段空间，其大小的取值范围是 1MB 到 32MB 之间。
+
+![img](https://gitee.com/xurunxuan/picgo/raw/master/img/1460000021878130)
+
+![img](https://gitee.com/xurunxuan/picgo/raw/master/img/1460000021878134)
+
+## 常量池
+
+https://mp.weixin.qq.com/s/Av2phrOe_TXnRwD0SeYPCg
+
+![image-20201107112058414](https://gitee.com/xurunxuan/picgo/raw/master/img/image-20201107112058414.png)
+
+class常量池
+
+- 类和接口的全限定名
+- 字段的名称和描述符
+- 方法的名称和描述符
+
+**运行时常量池就是用来存放 class 常量池中的内容的**
+
+1. 字符串常量池本质就是一个哈希表
+2. 字符串常量池中存储的是字符串实例的引用
+3. 字符串常量池在被整个 JVM 共享
+4. 在解析运行时常量池中的符号引用时，会去查询字符串常量池，确保运行时常量池中解析后的直接引用跟字符串常量池中的引用是一致的
+
+## 保守和非保守GC
+
+https://zuozuo.gitbooks.io/reading-notes-of-garbage-collection/content/chapter6_bao_shou_shi_gc.html
+
+**保守式GC(Conservative GC)指的是: 不能识别指针和非指针的GC**
+
+**准确式GC(Exact GC)能够正确识别出指针和非指针** 	
+
+相信大家看下来已经知道准确意味 JVM 需要清晰的知晓对象的类型，包括在栈上的引用也能得知类型等。
+
+能想到的可以在指针上打标记，来表明类型，或者在外部记录类型信息形成一张映射表。
+
+HotSpot 用的就是映射表，这个表叫 OopMap。
+
+在 HotSpot 中，对象的类型信息里会记录自己的 OopMap，记录了在该类型的对象内什么偏移量上是什么类型的数据，而在解释器中执行的方法可以通过解释器里的功能自动生成出 OopMap 出来给 GC 用。
+
+被 JIT 编译过的方法，也会在特定的位置生成 OopMap，记录了执行到该方法的某条指令时栈上和寄存器里哪些位置是引用。
+
+这些特定的位置主要在：
+
+1. 循环的末尾（非 counted 循环）
+2. 方法临返回前 / 调用方法的call指令后
+3. 可能抛异常的位置
+
+这些位置就叫作安全点(safepoint)。
+
+那为什么要选择这些位置插入呢？因为如果对每条指令都记录一个 OopMap 的话空间开销就过大了，因此就选择这些个关键位置来记录即可。
+
+所以在 HotSpot 中 GC 不是在任何位置都能进入的，只能在安全点进入。
+
+至此我们知晓了可以在类加载时计算得到对象类型中的 OopMap，解释器生成的 OopMap 和 JIT 生成的 OopMap ，所以 GC 的时候已经有充足的条件来准确判断对象类型。
+
+因此称为准确式 GC。
+
+https://mp.weixin.qq.com/s/AZ_Xv28cF1xxloluJaniww
 
 # 算法题
 
