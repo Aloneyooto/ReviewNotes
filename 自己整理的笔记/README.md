@@ -110,9 +110,14 @@
   - [上下文切换](#上下文切换)
   - [线程状态转换关系](#线程状态转换关系)
   - [sleep()和wait()的区别](#sleep和wait的区别)
+  - [sleep()和yield()的区别](#sleep和yield的区别)
+  - [finalize()方法什么时候被调用？](#finalize方法什么时候被调用)
   - [形成死锁的四个条件](#形成死锁的四个条件)
+  - [如何避免线程死锁](#如何避免线程死锁)
   - [Java中用到的线程调度算法](#java中用到的线程调度算法)
   - [终止线程运行的情况](#终止线程运行的情况)
+  - [重排序实际执行的指令步骤](#重排序实际执行的指令步骤)
+  - [as-if-serial和happens-before规则的区别](#as-if-serial和happens-before规则的区别)
   - [volatile(还没写)](#volatile还没写)
   - [多线程8锁](#多线程8锁)
     - [公平锁/非公平锁](#公平锁非公平锁)
@@ -124,28 +129,46 @@
     - [偏向锁/轻量级锁/重量级锁](#偏向锁轻量级锁重量级锁)
     - [自旋锁](#自旋锁)
   - [锁机制（b站那个视频没总结完）](#锁机制b站那个视频没总结完)
+  - [synchronized和Lock的区别](#synchronized和lock的区别)
+  - [synchronized和ReentrantLock的区别](#synchronized和reentrantlock的区别)
+  - [synchronized和volatile的区别](#synchronized和volatile的区别)
   - [为什么synchronized无法禁止指令重排，却能保证有序性？](#为什么synchronized无法禁止指令重排却能保证有序性)
   - [Java内存模型](#java内存模型)
+  - [CAS](#cas)
+  - [CAS产生的问题](#cas产生的问题)
   - [线程池](#线程池)
     - [参数](#参数)
     - [四种拒绝策略](#四种拒绝策略)
+    - [四类不同的线程池](#四类不同的线程池)
     - [工作流程](#工作流程)
     - [如何实现线程复用](#如何实现线程复用)
-  - [CountDownLatch,CyclicBarrier,Semaphore(没写完)](#countdownlatchcyclicbarriersemaphore没写完)
+  - [CountDownLatch,CyclicBarrier,Semaphore](#countdownlatchcyclicbarriersemaphore)
   - [AQS（没写完）](#aqs没写完)
     - [获取锁](#获取锁)
   - [JDBC流程](#jdbc流程)
 - [JVM](#jvm)
-  - [四种引用](#四种引用)
+  - [四种引用(没写完)](#四种引用没写完)
     - [虚引用](#虚引用)
+    - [软引用](#软引用)
+    - [弱引用](#弱引用)
+    - [强引用](#强引用)
+  - [JVM的结构](#jvm的结构)
+  - [运行时数据区](#运行时数据区)
+    - [虚拟机栈](#虚拟机栈)
   - [TLAB分配](#tlab分配)
   - [为什么用元空间](#为什么用元空间)
   - [类加载过程](#类加载过程)
+  - [判断对象是否可以被回收](#判断对象是否可以被回收)
   - [对象从年轻代进入老年代的时机](#对象从年轻代进入老年代的时机)
   - [触发Full GC的时机](#触发full-gc的时机)
   - [Minor GC的触发条件](#minor-gc的触发条件)
   - [“无用的类”的判断条件](#无用的类的判断条件)
   - [如何判断一个常量是废弃常量](#如何判断一个常量是废弃常量)
+  - [垃圾回收算法](#垃圾回收算法)
+    - [标记清除算法](#标记清除算法)
+    - [复制算法](#复制算法)
+    - [标记整理算法](#标记整理算法)
+  - [垃圾收集器（还没写）](#垃圾收集器还没写)
   - [双亲委派机制](#双亲委派机制)
   - [全盘负责](#全盘负责)
   - [并发标记](#并发标记)
@@ -1491,12 +1514,29 @@ https://blog.csdn.net/javazejian/article/details/77410889
 
 ![](https://yueqilai-images.oss-cn-beijing.aliyuncs.com/20180723171041981.png)
 
+## sleep()和yield()的区别
+
+- sleep()方法给其他线程运行机会时不考虑线程的优先级，yield()方法只会给相同优先级或更高优先级的线程以运行的机会
+- 线程执行sleep()方法后转入阻塞(blocked)状态，而执行yield()方法后转入就绪(ready)状态
+- sleep()方法声明抛出InterruptedException,而yield()方法没有声明任何异常
+- sleep()方法比yield()方法具有更好的移植性，不建议使用yield()方法来控制并发线程的执行
+
+## finalize()方法什么时候被调用？
+
+垃圾回收器准备释放对象占用的内存时，将首先调用该对象的finalize()方法，并且下一次垃圾回收动作发生时，才真正回收对象占用的内存空间。
+
 ## 形成死锁的四个条件
 
 - 互斥条件：在一段时间内某资源只由一个进程占用
 - 占有且等待条件：指进程已经保持至少一个资源，但又提出了新的资源请求，而该资源已被其它进程占有，此时请求进程阻塞，但又对自己已获得的其它资源保持不放。
 - 不可抢占条件：别人已经占有了某项资源，你不能因为自己也需要该资源，就去把别人的资源抢过来。
 - 循环等待条件：若干进程之间形成一种头尾相接的循环等待资源关系。
+
+## 如何避免线程死锁
+
+- 避免一个线程同时获得多个锁
+- 避免一个线程在锁内同时占用多个资源，尽量保证每个锁只占用一个资源
+- 尝试使用定时锁，使用`lock.tryLock(timeout)`来替代使用内部锁机制
 
 ## Java中用到的线程调度算法
 
@@ -1510,6 +1550,19 @@ https://blog.csdn.net/javazejian/article/details/77410889
 - 线程由于 IO 操作受到阻塞
 - 另外一个更高优先级线程出现
 - 在支持时间片的系统中，该线程的时间片用完
+
+## 重排序实际执行的指令步骤
+
+- 编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。
+- 指令级并行的重排序。现代处理器采用了指令级并行技术（ILP）来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。
+- 内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。
+
+## as-if-serial和happens-before规则的区别
+
+- as-if-serial语义保证单线程内程序的执行结果不被改变，happens-before关系保证正确同步的多线程程序的执行结果不被改变
+- as-if-serial语义给编写单线程程序的程序员创造了一个幻境：单线程程序是按程序的顺序来执行的。happens-before关系给编写正确同步的多线程程序的程序员创造了一个幻境：正确同步的多线程程序是按happens-before指定的顺序来执行的。
+
+
 
 ## volatile(还没写)
 
@@ -1574,6 +1627,27 @@ https://blog.csdn.net/javazejian/article/details/77410889
 synchronized编译后生成monitorenter和monitorexit两个字节码指令来进行线程同步。monitor的原理是首先entryset中聚集了一些想要进入monitor的线程，他们正处于waiting状态，假设线程a成功进入monitor，它就变为active状态，此时若线程执行途中遇到了一个判断条件需要暂时让出执行权，它将进入wait set，状态变为waiting，此时entry set中的线程可以进入monitor。当monitor中的线程执行完毕后可以唤醒其他线程继续执行。synchronized可能会有性能问题，因为monitor是依赖操作系统的mutex lock来实现的。JAVA线程实际是对操作系统线程的映射，所以每当挂起或唤醒一个线程都要切换操作系统内核态。
 1.6开始，对synchronized进行了优化，锁总共有四种状态。(后面有点长)
 
+## synchronized和Lock的区别
+
+- synchronized是Java内置关键字,Lock是Java类
+- synchronized可以给类，方法，代码块加锁，而lock只能给代码块加锁
+- synchronized不需要手动获取锁和释放锁，使用简单，发生异常会自动释放锁，不会造成死锁；而lock需要自己加锁和释放锁，如果使用不当没有unLock()去释放锁就会造成死锁
+- 通过Lock可以知道有没有成功获取锁，而synchronized却无法办到.
+
+## synchronized和ReentrantLock的区别
+
+- ReentrantLock使用起来比较灵活，但是必须有释放锁的配合动作
+- ReentrantLock必须手动获取与释放锁，而synchronized不需要手动释放和开启锁
+- ReentrantLock只适用于代码块锁,而synchronized可以修饰类，方法，变量等。
+- ReentrantLock底层调用的是Unsafe的park方法加锁，synchronized操作的应该是对象头中的mark word
+
+## synchronized和volatile的区别
+
+- volatile是变量修饰符,synchronized可以修饰类，方法，变量
+- volatile仅能实现变量的修改可见性，不能保证原子性;而synchronized则可以保证变量的修改可见性和原子性
+- volatile不会造成线程的阻塞,synchronized可能会造成线程的阻塞
+- volatile标记的变量不会被编译器优化,synchronized标记的变量可以被编译器优化
+
 ## 为什么synchronized无法禁止指令重排，却能保证有序性？
 
 synchronized通过排他锁的方式就保证了同一时间内，被synchronized修饰的代码是单线程执行的。
@@ -1582,7 +1656,24 @@ synchronized通过排他锁的方式就保证了同一时间内，被synchronize
 
 ![](https://user-gold-cdn.xitu.io/2020/4/13/17172bab46986d99?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
+JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存中，每个线程都有一个私有的本地内存，本地内存中存储了该线程以读/写共享变量的副本。
 
+线程A与线程B之间如果要通信的话，必须要经历下面两个步骤：
+
+- 线程A把本地内存A中更新过的共享变量刷新到主内存中去
+- 线程B到主内存中去读取线程A之前已更新过的共享变量
+
+## CAS
+
+CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值(B)。如果内存地址里面的值和 A 的值是一样的，那么就将内存里面的值更新成 B。
+
+## CAS产生的问题
+
+- ABA问题:
+  一个线程 one 从内存位置 V 中取出 A，这时候另一个线程 two 也从内存中取出 A，并且 two 进行了一些操作变成了 B，然后 two 又将 V 位置的数据变成 A，这时候线程 one 进行 CAS 操作发现内存中仍然是 A，然后 one 操作成功。
+- 循环时间长开销大:
+  对于资源竞争严重（线程冲突严重）的情况，CAS 自旋的概率会比较大，从而浪费更多的 CPU 资源，效率低于 synchronized
+- 只能保证一个共享变量的原子操作
 
 ## 线程池
 
@@ -1627,6 +1718,13 @@ ThreadPoolExecutor(int corePoolSize,
 `ThreadPoolExecutor.DiscardOldestPolicy`：丢弃队列最前面的任务，然后重新提交被拒绝的任务
 `ThreadPoolExecutor.CallerRunsPolicy`：由调用线程（提交任务的线程）处理该任务
 
+### 四类不同的线程池
+
+- newCachedThreadPool:创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程
+- newFixedThreadPool:创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
+- newScheduledThreadPool:创建一个定长线程池，支持定时及周期性任务执行
+- newSingleThreadExecutor:创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行
+
 ### 工作流程
 
 ![](https://upload-images.jianshu.io/upload_images/4134622-fbbdbcb6bcc00178.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
@@ -1639,7 +1737,7 @@ ThreadPoolExecutor(int corePoolSize,
 
 https://www.jianshu.com/p/5e952ab2c41b
 
-## CountDownLatch,CyclicBarrier,Semaphore(没写完)
+## CountDownLatch,CyclicBarrier,Semaphore
 
 CountDownLatch:
 
@@ -1648,6 +1746,14 @@ CountDownLatch:
 ​	当一个线程调用await方法时，就会阻塞当前线程。每当有线程调用一次countDown方法时，计数就会减1。当count的值等于0的时候，被阻塞的线程才会继续运行。
 
 CyclicBarrier:
+
+让所有线程都等待完成后才会继续下一步行动
+
+CyclicBarrier初始化时规定一个数目，然后计算调用了CyclicBarrier.await()进入等待的线程数。当线程数达到了这个数目时，所有进入等待状态的线程被唤醒并继续。
+
+Semaphore:
+
+Semaphore是一种基于计数的信号量。它可以设定一个阈值，基于此，多个线程竞争获取许可信号，做自己的申请后归还，超过阈值后，线程申请许可信号将会被阻塞。
 
 ## AQS（没写完）
 
@@ -1678,7 +1784,7 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
 
 # JVM
 
-## 四种引用
+## 四种引用(没写完)
 
 ### 虚引用
 
@@ -1695,6 +1801,44 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
     PhantomReference pr = new PhantomReference(str, queue);
 复制代码
 ```
+
+### 软引用
+
+有用但不是必须的对象，在发生内存溢出之前会被回收
+
+### 弱引用
+
+有用但不是必须的对象，在下一次GC时会被回收
+
+### 强引用
+
+发生gc的时候不会被回收
+
+## JVM的结构
+
+![](https://user-gold-cdn.xitu.io/2020/4/13/171729fc868d44b7?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+首先通过编译器把 Java 代码转换成字节码，类加载器（ClassLoader）再把字节码加载到内存中，将其放在运行时数据区（Runtime data area）的方法区内，而字节码文件只是 JVM 的一套指令集规范，并不能直接交给底层操作系统去执行，因此需要特定的命令解析器执行引擎（Execution Engine），将字节码翻译成底层系统指令，再交由 CPU 去执行，而这个过程中需要调用其他语言的本地库接口（Native Interface）来实现整个程序的功能。
+
+## 运行时数据区
+
+- 程序计数器（Program Counter Register）：当前线程所执行的字节码的行号指示器，分支、循环、跳转、异常处理、线程恢复等基础功能，都需要依赖这个计数器来完成
+- Java 虚拟机栈（Java Virtual Machine Stacks）：每个方法在执行的同时都会在Java 虚拟机栈中创建一个栈帧（Stack Frame）用于存储局部变量表、操作数栈、动态链接、方法出口等信息
+- 本地方法栈（Native Method Stack）：与虚拟机栈的作用是一样的，只不过虚拟机栈是服务 Java 方法的，而本地方法栈是为虚拟机调用 Native 方法服务的；
+- Java 堆（Java Heap）：Java 虚拟机中内存最大的一块，是被所有线程共享的，几乎所有的对象实例都在这里分配内存
+- 方法区（Methed Area）：用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译后的代码等数据
+
+### 虚拟机栈
+
+虚拟机栈描述的是Java方法执行的内存模型：每个方法在执行的同时都会创建一个栈帧（Stack Frame）用于存储局部变量表、操作数栈、动态链接、方法出口等信息
+
+**解析栈帧**
+
+局部变量表：是用来存储我们临时8个基本数据类型、对象引用地址、returnAddress类型。（returnAddress中保存的是return后要执行的字节码的指令地址。）
+操作数栈：操作数栈就是用来操作的，例如代码中有个 i = 6*6，他在一开始的时候就会进行操作，读取我们的代码，进行计算后再放入局部变量表中去
+动态链接：假如我方法中，有个 service.add()方法，要链接到别的方法中去，这就是动态链接，存储链接的地方。
+出口：出口正常的话就是return，不正常的话就是抛出异常。
+
 
 ## TLAB分配
 
@@ -1763,6 +1907,16 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
 
 初始化阶段就是执行**类构造器方法**<clinit>()的过程，此方法不需要定义，是javac编译器自动收集类中的所有类变量的赋值动作和静态代码块中的语句合并而来，构造器方法中指令按语句在源文件中出现的顺序执行。若该类具有父类，JVM会保证子类的`<clinit>()`执行前，父类的`<clinit>()`已经执行完毕，虚拟机必须保证一个类的`<clinit>()`方法在多线程下被同步加锁。
 
+## 判断对象是否可以被回收
+
+**引用计数器法**：
+
+为每个对象创建一个引用计数，有对象引用时计数器 +1，引用被释放时计数 -1，当计数器为 0 时就可以被回收。它有一个缺点不能解决循环引用的问题
+
+**可达性分析**：
+
+从GC Roots开始向下搜索，搜索所走过的路径称为引用链。当一个对象到GC Roots没有任何引用链相连时，则证明此对象是可以被回收的。
+
 ## 对象从年轻代进入老年代的时机
 
 - Young GC时，To Survivor区不足以存放存活的对象，对象会直接进入到老年代。
@@ -1791,6 +1945,47 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
 ## 如何判断一个常量是废弃常量
 
 没有任何String对象引用该字符串常量
+
+## 垃圾回收算法
+
+### 标记清除算法
+
+标记无用对象，然后进行清除回收。
+
+分为两个阶段：
+
+- 标记阶段：标记出可以回收的对象
+- 清除阶段：回收被标记的对象所占用的空间
+
+优点：实现简单，不需要对象进行移动
+
+缺点：效率低，产生大量不连续的内存碎片
+
+（缺个图）
+
+### 复制算法
+
+将内存空间划为两个相等的区域，每次只使用其中一个区域。垃圾收集时，遍历当前使用的区域，把存活对象复制到另外一个区域中，最后将当前使用的区域的可回收的对象进行回收
+
+优点：按顺序分配内存即可，实现简单、运行高效，不用考虑内存碎片
+
+缺点：可用的内存大小缩小为原来的一半，对象存活率高时会频繁进行复制
+
+（缺图）
+
+### 标记整理算法
+
+在标记可回收对象后将所有存活的对象压缩到内存的一端，然后对端边界以外的内存进行回收。回收后，已用和未用的内存都各自一边。
+
+优点：没有内存碎片
+
+缺点：效率不高
+
+（缺图）
+
+## 垃圾收集器（还没写）
+
+
 
 ## 双亲委派机制
 
