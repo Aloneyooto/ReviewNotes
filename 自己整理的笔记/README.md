@@ -3261,6 +3261,7 @@ mysql> show status like 'innodb_row_lock%';
   <tr>
     <td colspan="2">隔离级别 一致性读和锁 SQL </td>
     <td>Read Uncommited</td>
+    <td>Read Commited</td>
     <td>Repeatable Read</td>
     <td>Serializable</td>
   </tr>
