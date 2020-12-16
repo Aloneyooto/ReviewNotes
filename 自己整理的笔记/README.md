@@ -126,57 +126,58 @@
     - [ConcurrentHashMap为什么不能存值为null的value（主要学习作者的学习方式）](#concurrenthashmap为什么不能存值为null的value主要学习作者的学习方式)
   - [阻塞队列(BlockingQueue）](#阻塞队列blockingqueue)
     - [LinkedBlockingQueue和ArrayBlockingQueue（没写完）](#linkedblockingqueue和arrayblockingqueue没写完)
-  - [生产者消费者模式的实现（还没写）](#生产者消费者模式的实现还没写)
-  - [线程和进程的区别](#线程和进程的区别)
-  - [创建线程的四种方式](#创建线程的四种方式)
-  - [上下文切换](#上下文切换)
-  - [线程状态转换关系](#线程状态转换关系)
-  - [sleep()和wait()的区别](#sleep和wait的区别)
-  - [sleep()和yield()的区别](#sleep和yield的区别)
-  - [finalize()方法什么时候被调用？](#finalize方法什么时候被调用)
-  - [形成死锁的四个条件](#形成死锁的四个条件)
-  - [如何避免线程死锁](#如何避免线程死锁)
-  - [Java中用到的线程调度算法](#java中用到的线程调度算法)
-  - [终止线程运行的情况](#终止线程运行的情况)
-  - [重排序实际执行的指令步骤](#重排序实际执行的指令步骤)
-  - [as-if-serial和happens-before规则的区别](#as-if-serial和happens-before规则的区别)
-  - [Java内存模型](#java内存模型)
-  - [volatile](#volatile)
-    - [为什么其他线程能感知到变量更新?](#为什么其他线程能感知到变量更新)
-    - [volatile如何实现禁止指令重排](#volatile如何实现禁止指令重排)
-  - [多线程8锁](#多线程8锁)
-    - [公平锁/非公平锁](#公平锁非公平锁)
-    - [可重入锁](#可重入锁)
-    - [独享锁/共享锁](#独享锁共享锁)
-    - [互斥锁/读写锁](#互斥锁读写锁)
-    - [乐观锁/悲观锁](#乐观锁悲观锁)
-    - [分段锁](#分段锁)
-    - [偏向锁/轻量级锁/重量级锁](#偏向锁轻量级锁重量级锁)
-    - [自旋锁](#自旋锁)
-  - [锁机制（b站那个视频没总结完）](#锁机制b站那个视频没总结完)
-  - [synchronized和Lock的区别](#synchronized和lock的区别)
-  - [synchronized和ReentrantLock的区别](#synchronized和reentrantlock的区别)
-  - [synchronized和volatile的区别](#synchronized和volatile的区别)
-  - [为什么synchronized无法禁止指令重排，却能保证有序性？](#为什么synchronized无法禁止指令重排却能保证有序性)
-  - [CAS](#cas)
-  - [CAS产生的问题](#cas产生的问题)
-  - [线程池](#线程池)
-    - [参数](#参数)
-    - [四种拒绝策略](#四种拒绝策略)
-    - [线程池触发拒绝策略的时机](#线程池触发拒绝策略的时机)
-    - [四类不同的线程池](#四类不同的线程池)
-    - [工作流程](#工作流程)
-    - [如何实现线程复用](#如何实现线程复用)
-  - [CountDownLatch,CyclicBarrier,Semaphore](#countdownlatchcyclicbarriersemaphore)
-  - [AQS（没写完）](#aqs没写完)
-    - [获取锁](#获取锁)
-  - [JDBC流程](#jdbc流程)
+  - [多线程](#多线程)
+    - [生产者消费者模式的实现（还没写）](#生产者消费者模式的实现还没写)
+    - [线程和进程的区别](#线程和进程的区别)
+    - [创建线程的四种方式](#创建线程的四种方式)
+    - [上下文切换](#上下文切换)
+    - [线程状态转换关系](#线程状态转换关系)
+    - [sleep()和wait()的区别](#sleep和wait的区别)
+    - [sleep()和yield()的区别](#sleep和yield的区别)
+    - [形成死锁的四个条件](#形成死锁的四个条件)
+    - [如何避免线程死锁](#如何避免线程死锁)
+    - [Java中用到的线程调度算法](#java中用到的线程调度算法)
+    - [终止线程运行的情况](#终止线程运行的情况)
+    - [重排序实际执行的指令步骤](#重排序实际执行的指令步骤)
+    - [as-if-serial和happens-before规则的区别](#as-if-serial和happens-before规则的区别)
+    - [Java内存模型](#java内存模型)
+    - [volatile](#volatile)
+      - [为什么其他线程能感知到变量更新?](#为什么其他线程能感知到变量更新)
+      - [volatile如何实现禁止指令重排](#volatile如何实现禁止指令重排)
+    - [多线程8锁](#多线程8锁)
+      - [公平锁/非公平锁](#公平锁非公平锁)
+      - [可重入锁](#可重入锁)
+      - [独享锁/共享锁](#独享锁共享锁)
+      - [互斥锁/读写锁](#互斥锁读写锁)
+      - [乐观锁/悲观锁](#乐观锁悲观锁)
+      - [分段锁](#分段锁)
+      - [偏向锁/轻量级锁/重量级锁](#偏向锁轻量级锁重量级锁)
+      - [自旋锁](#自旋锁)
+    - [锁机制（b站那个视频没总结完）](#锁机制b站那个视频没总结完)
+    - [synchronized和Lock的区别](#synchronized和lock的区别)
+    - [synchronized和ReentrantLock的区别](#synchronized和reentrantlock的区别)
+    - [synchronized和volatile的区别](#synchronized和volatile的区别)
+    - [为什么synchronized无法禁止指令重排，却能保证有序性？](#为什么synchronized无法禁止指令重排却能保证有序性)
+    - [CAS](#cas)
+    - [CAS产生的问题](#cas产生的问题)
+    - [线程池](#线程池)
+      - [参数](#参数)
+      - [四种拒绝策略](#四种拒绝策略)
+      - [线程池触发拒绝策略的时机](#线程池触发拒绝策略的时机)
+      - [四类不同的线程池](#四类不同的线程池)
+      - [工作流程](#工作流程)
+      - [如何实现线程复用](#如何实现线程复用)
+    - [CountDownLatch,CyclicBarrier,Semaphore](#countdownlatchcyclicbarriersemaphore)
+    - [AQS（没写完）](#aqs没写完)
+      - [获取锁](#获取锁)
+    - [JDBC流程](#jdbc流程)
 - [JVM](#jvm)
   - [四种引用(没写完)](#四种引用没写完)
     - [虚引用](#虚引用)
     - [软引用](#软引用)
     - [弱引用](#弱引用)
     - [强引用](#强引用)
+  - [finalize()方法什么时候被调用？](#finalize方法什么时候被调用)
   - [JVM的结构](#jvm的结构)
   - [运行时数据区](#运行时数据区)
     - [虚拟机栈](#虚拟机栈)
@@ -205,22 +206,77 @@
 - [MySQL](#mysql)
   - [储存格式](#储存格式)
   - [MySQL的查询流程](#mysql的查询流程)
+  - [MySQLr如何建立连接](#mysqlr如何建立连接)
   - [MyISAM和InnoDB](#myisam和innodb)
+  - [MyISAM的应用场景](#myisam的应用场景)
   - [InnoDB的4大特性](#innodb的4大特性)
   - [二次写](#二次写)
   - [哪个存储引擎执行 select count(*) 更快，为什么?](#哪个存储引擎执行-select-count-更快为什么)
   - [char和varchar的区别](#char和varchar的区别)
   - [三范式](#三范式)
   - [百万级别或以上的数据如何删除](#百万级别或以上的数据如何删除)
+  - [为什么InnoDB要有主键](#为什么innodb要有主键)
+  - [count(*) 和 count(1)和count(列名)区别](#count-和-count1和count列名区别)
+  - [MySQL中in和exists的区别](#mysql中in和exists的区别)
+  - [UNION和UNION ALL的区别](#union和union-all的区别)
+  - [SQL执行顺序](#sql执行顺序)
   - [关于索引的sql语句](#关于索引的sql语句)
   - [索引分类](#索引分类)
   - [索引为什么选择B+树](#索引为什么选择b树)
+  - [B-Tree的性质](#b-tree的性质)
+  - [B+Tree的性质](#btree的性质)
+  - [B+Tree索引和Hash索引区别](#btree索引和hash索引区别)
+  - [为什么不建议使用订单号作为主键?](#为什么不建议使用订单号作为主键)
+  - [一棵B+树可以存放多少行数据](#一棵b树可以存放多少行数据)
+  - [聚集索引与非聚集索引的区别](#聚集索引与非聚集索引的区别)
+  - [MyISAM主键索引和辅助索引的结构](#myisam主键索引和辅助索引的结构)
+  - [InnoDB如何实现聚集（聚簇）索引](#innodb如何实现聚集聚簇索引)
+  - [回表查询](#回表查询)
+  - [full-text全文索引](#full-text全文索引)
+  - [与索引有关的SQL语句](#与索引有关的sql语句)
+  - [哪些情况需要创建索引](#哪些情况需要创建索引)
+  - [哪些情况不要创建索引](#哪些情况不要创建索引)
+  - [索引覆盖](#索引覆盖)
+  - [索引不生效 前缀索引](#索引不生效-前缀索引)
+  - [索引设计准则:三星索引](#索引设计准则三星索引)
+  - [事务的基本要素](#事务的基本要素)
+  - [并发事务处理带来的问题](#并发事务处理带来的问题)
+  - [事务隔离级别](#事务隔离级别)
   - [mvcc实现原理](#mvcc实现原理)
+  - [REPEATABLE READ（可重读）隔离级别下MVCC如何工作](#repeatable-read可重读隔离级别下mvcc如何工作)
   - [MVCC中的ReadView(可读视图)](#mvcc中的readview可读视图)
-  - [日志 redo undo binlog](#日志-redo-undo-binlog)
-  - [explain详解](#explain详解)
+  - [MVCC和next-key lock为什么不能完全解决幻读](#mvcc和next-key-lock为什么不能完全解决幻读)
+  - [MySQL中有哪几种锁](#mysql中有哪几种锁)
+  - [为什么没有意向锁的话，表锁和行锁不能共存？](#为什么没有意向锁的话表锁和行锁不能共存)
+  - [意向锁是如何让表锁和行锁共存的？](#意向锁是如何让表锁和行锁共存的)
+  - [意向锁是表锁还是行锁](#意向锁是表锁还是行锁)
+  - [MySQL中InnoDB引擎的行锁是怎么实现的](#mysql中innodb引擎的行锁是怎么实现的)
+  - [select for update的含义](#select-for-update的含义)
+  - [获取InnoDB行锁争用情况](#获取innodb行锁争用情况)
+  - [InnoDB存储引擎中不同SQL在不同隔离级别下锁的比较](#innodb存储引擎中不同sql在不同隔离级别下锁的比较)
+  - [数据库死锁怎么处理](#数据库死锁怎么处理)
+  - [如何避免死锁](#如何避免死锁)
+  - [数据恢复策略](#数据恢复策略)
+  - [日志](#日志)
+    - [bin log和redo log的区别](#bin-log和redo-log的区别)
+    - [bin log](#bin-log)
+    - [undo log](#undo-log)
+      - [undo log的写入时机](#undo-log的写入时机)
+      - [undo log的存储位置](#undo-log的存储位置)
+    - [redo log 重做日志](#redo-log-重做日志)
+      - [什么时候写入?](#什么时候写入)
+      - [整体流程](#整体流程)
+    - [binlog和redo log写入的细节](#binlog和redo-log写入的细节)
+    - [为什么有了redo log还需要bin log](#为什么有了redo-log还需要bin-log)
+  - [排序](#排序)
+  - [MySQL中有一条SQL比较慢](#mysql中有一条sql比较慢)
+  - [explain详解（没写）](#explain详解没写)
   - [主从复制的基本原理](#主从复制的基本原理)
   - [MySQL分区分库分表](#mysql分区分库分表)
+  - [分布式数据库数据一致性原理说明与实现（没写）](#分布式数据库数据一致性原理说明与实现没写)
+  - [Join算法原理（没写）](#join算法原理没写)
+  - [SQL truncate,delete与drop区别(没写)](#sql-truncatedelete与drop区别没写)
+  - [预编译语句](#预编译语句)
 - [算法题](#算法题)
   - [只出现一次的数字(136)](#只出现一次的数字136)
   - [阶乘后的零(172)](#阶乘后的零172)
@@ -1828,10 +1884,12 @@ ArrayBlockingQueue内部的阻塞队列是通过重入锁ReenterLock和Condition
 
 https://blog.csdn.net/javazejian/article/details/77410889
 
-## 生产者消费者模式的实现（还没写）
+## 多线程
+
+### 生产者消费者模式的实现（还没写）
 
 
-## 线程和进程的区别
+### 线程和进程的区别
 
 - 进程是操作系统资源分配的基本单位，而线程是处理器任务调度和执行的基本单位
 - 每个进程都有独立的代码和数据空间（程序上下文），程序之间的切换会有较大的开销；同一类线程共享代码和数据空间，每个线程都有自己独立的运行栈和程序计数器（PC），线程之间切换的开销小。
@@ -1839,18 +1897,18 @@ https://blog.csdn.net/javazejian/article/details/77410889
 - 一个进程崩溃后，在保护模式下不会对其他进程产生影响，但是一个线程崩溃有可能导致整个进程都死掉。
 - 每个独立的进程有程序运行的入口、顺序执行序列和程序出口。但是线程不能独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制，两者均可并发执行
 
-## 创建线程的四种方式
+### 创建线程的四种方式
 
 - 采用实现Runnable创建多线程
 - 使用继承Thread类的方式创建多线程
 - 采用实现Callable接口的方式创建多线程
 - 通过创建线程池来创建线程
 
-## 上下文切换
+### 上下文切换
 
 当前任务在执行完 CPU 时间片切换到另一个任务之前会先保存自己的状态，以便下次再切换回这个任务时，可以再加载这个任务的状态。任务从保存到再加载的过程就是一次上下文切换。
 
-## 线程状态转换关系
+### 线程状态转换关系
 
 ![](https://user-gold-cdn.xitu.io/2018/4/30/163159b8a740b329?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
@@ -1861,40 +1919,36 @@ https://blog.csdn.net/javazejian/article/details/77410889
 - (三). 其他阻塞: 通过调用线程的 sleep()或 join()或发出了 I/O 请求时，线程会进入到阻塞状态。当 sleep()状态超时、join()等待线程终止或者超时、或者 I/O 处理完毕时，线程重新转入就绪状态。
 
 
-## sleep()和wait()的区别
+### sleep()和wait()的区别
 
 ![](https://yueqilai-images.oss-cn-beijing.aliyuncs.com/20180723171041981.png)
 
-## sleep()和yield()的区别
+### sleep()和yield()的区别
 
 - sleep()方法给其他线程运行机会时不考虑线程的优先级，yield()方法只会给相同优先级或更高优先级的线程以运行的机会
 - 线程执行sleep()方法后转入阻塞(blocked)状态，而执行yield()方法后转入就绪(ready)状态
 - sleep()方法声明抛出InterruptedException,而yield()方法没有声明任何异常
 - sleep()方法比yield()方法具有更好的移植性，不建议使用yield()方法来控制并发线程的执行
 
-## finalize()方法什么时候被调用？
-
-垃圾回收器准备释放对象占用的内存时，将首先调用该对象的finalize()方法，并且下一次垃圾回收动作发生时，才真正回收对象占用的内存空间。
-
-## 形成死锁的四个条件
+### 形成死锁的四个条件
 
 - 互斥条件：在一段时间内某资源只由一个进程占用
 - 占有且等待条件：指进程已经保持至少一个资源，但又提出了新的资源请求，而该资源已被其它进程占有，此时请求进程阻塞，但又对自己已获得的其它资源保持不放。
 - 不可抢占条件：别人已经占有了某项资源，你不能因为自己也需要该资源，就去把别人的资源抢过来。
 - 循环等待条件：若干进程之间形成一种头尾相接的循环等待资源关系。
 
-## 如何避免线程死锁
+### 如何避免线程死锁
 
 - 避免一个线程同时获得多个锁
 - 避免一个线程在锁内同时占用多个资源，尽量保证每个锁只占用一个资源
 - 尝试使用定时锁，使用`lock.tryLock(timeout)`来替代使用内部锁机制
 
-## Java中用到的线程调度算法
+### Java中用到的线程调度算法
 
 - 分时调度模型：让所有的线程轮流获得cpu的使用权，并且平均分配每个线程占用的CPU的时间片
 - 抢占式调度模型：是指优先让可运行池中优先级高的线程占用CPU，如果可运行池中的线程优先级相同，那么就随机选择一个线程，使其占用CPU。处于运行状态的线程会一直运行，直至它不得不放弃 CPU。
 
-## 终止线程运行的情况
+### 终止线程运行的情况
 
 - 线程体中调用了 yield 方法让出了对 cpu 的占用权利
 - 线程体中调用了 sleep 方法使线程进入睡眠状态
@@ -1902,18 +1956,18 @@ https://blog.csdn.net/javazejian/article/details/77410889
 - 另外一个更高优先级线程出现
 - 在支持时间片的系统中，该线程的时间片用完
 
-## 重排序实际执行的指令步骤
+### 重排序实际执行的指令步骤
 
 - 编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。
 - 指令级并行的重排序。现代处理器采用了指令级并行技术（ILP）来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。
 - 内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。
 
-## as-if-serial和happens-before规则的区别
+### as-if-serial和happens-before规则的区别
 
 - as-if-serial语义保证单线程内程序的执行结果不被改变，happens-before关系保证正确同步的多线程程序的执行结果不被改变
 - as-if-serial语义给编写单线程程序的程序员创造了一个幻境：单线程程序是按程序的顺序来执行的。happens-before关系给编写正确同步的多线程程序的程序员创造了一个幻境：正确同步的多线程程序是按happens-before指定的顺序来执行的。
 
-## Java内存模型
+### Java内存模型
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/89b87f6e8db04a8dbe99416f9ff05ac2~tplv-k3u1fbpfcp-zoom-1.image)
 
@@ -1936,7 +1990,7 @@ JMM定义了线程和主内存之间的抽象关系：线程之间的共享变�
 - 不同线程之间无法直接访问对方工作内存中的变量
 - 线程间变量值的传递均需要通过主内存来完成
 
-## volatile
+### volatile
 
 [好文](https://juejin.cn/post/6861885337568804871#heading-24)
 
@@ -1946,7 +2000,7 @@ JMM定义了线程和主内存之间的抽象关系：线程之间的共享变�
 - 不保证原子性
 - 禁止指令重排
 
-### 为什么其他线程能感知到变量更新?
+#### 为什么其他线程能感知到变量更新?
 
 缓存一致性:
 
@@ -1976,7 +2030,7 @@ JMM定义了线程和主内存之间的抽象关系：线程之间的共享变�
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/60ea5804fd9e43aa8a1205e1988645b4~tplv-k3u1fbpfcp-zoom-1.image)
 
-### volatile如何实现禁止指令重排
+#### volatile如何实现禁止指令重排
 
 原理：在volatile生成的指令序列前后插入内存屏障（Memory Barries）来禁止处理器重排序。
 
@@ -1998,29 +2052,29 @@ volatile读场景如何插入内存屏障：
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abe11d4910354a019053d9cab3440818~tplv-k3u1fbpfcp-zoom-1.image)
 
-## 多线程8锁
+### 多线程8锁
 
-### 公平锁/非公平锁
+#### 公平锁/非公平锁
 
 1. 公平锁是指多个线程按照申请锁的顺序来获取锁。（先到先得，非常公平）
 2. 非公平锁是指多个线程获取锁的顺序并不是按照申请锁的顺序，有可能后申请的线程比先申请的线程优先获取锁。有可能，会造成优先级反转或者饥饿现象。
 
-### 可重入锁
+#### 可重入锁
 
 可重入锁又名递归锁，是指在同一个线程在外层方法获取锁的时候，在进入内层方法会自动获取锁。
 
-### 独享锁/共享锁
+#### 独享锁/共享锁
 
 1. 独享锁是指该锁一次只能被一个线程所持有。
 2. 共享锁是指该锁可被多个线程所持有。
 
-### 互斥锁/读写锁
+#### 互斥锁/读写锁
 
 上面讲的独享锁/共享锁就是一种广义的说法，互斥锁/读写锁就是具体的实现。
 互斥锁在Java中的具体实现就是ReentrantLock
 读写锁在Java中的具体实现就是ReadWriteLock
 
-### 乐观锁/悲观锁
+#### 乐观锁/悲观锁
 
 乐观锁与悲观锁不是指具体的什么类型的锁，而是指看待并发同步的角度。
 
@@ -2032,12 +2086,12 @@ volatile读场景如何插入内存屏障：
 1. 悲观锁在Java中的使用，就是利用各种锁。
 2. 乐观锁在Java中的使用，是无锁编程，常常采用的是CAS算法，典型的例子就是原子类，通过CAS自旋实现原子操作的更新。
 
-### 分段锁
+#### 分段锁
 
 ​	分段锁其实是一种锁的设计，并不是具体的一种锁，对于ConcurrentHashMap而言，其并发的实现就是通过分段锁的形式来实现高效的并发操作。ConcurrentHashMap内部就是用了分段锁。
 ​    分段锁的设计目的是细化锁的粒度，当操作不需要更新整个数组的时候，就仅仅针对数组中的一项进行加锁操作。
 
-### 偏向锁/轻量级锁/重量级锁
+#### 偏向锁/轻量级锁/重量级锁
 
 1. 偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。降低获取锁的代价。
 2. 轻量级锁是指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，不会阻塞，提高性能。
@@ -2045,11 +2099,11 @@ volatile读场景如何插入内存屏障：
 
 **从偏向锁->轻量级锁->重量级锁 是锁升级过程，该过程不可逆**
 
-### 自旋锁
+#### 自旋锁
 
 在Java中，自旋锁是指尝试获取锁的线程不会立即阻塞，而是采用循环的方式去尝试获取锁，这样的好处是减少线程上下文切换的消耗，缺点是循环会消耗CPU。
 
-## 锁机制（b站那个视频没总结完）
+### 锁机制（b站那个视频没总结完）
 
 在Java中每个对象都有一把锁，存放于对象头中，锁中记录当前对象是被哪个线程所占用。
 
@@ -2059,36 +2113,36 @@ volatile读场景如何插入内存屏障：
 synchronized编译后生成monitorenter和monitorexit两个字节码指令来进行线程同步。monitor的原理是首先entryset中聚集了一些想要进入monitor的线程，他们正处于waiting状态，假设线程a成功进入monitor，它就变为active状态，此时若线程执行途中遇到了一个判断条件需要暂时让出执行权，它将进入wait set，状态变为waiting，此时entry set中的线程可以进入monitor。当monitor中的线程执行完毕后可以唤醒其他线程继续执行。synchronized可能会有性能问题，因为monitor是依赖操作系统的mutex lock来实现的。JAVA线程实际是对操作系统线程的映射，所以每当挂起或唤醒一个线程都要切换操作系统内核态。
 1.6开始，对synchronized进行了优化，锁总共有四种状态。(后面有点长)
 
-## synchronized和Lock的区别
+### synchronized和Lock的区别
 
 - synchronized是Java内置关键字,Lock是Java类
 - synchronized可以给类，方法，代码块加锁，而lock只能给代码块加锁
 - synchronized不需要手动获取锁和释放锁，使用简单，发生异常会自动释放锁，不会造成死锁；而lock需要自己加锁和释放锁，如果使用不当没有unLock()去释放锁就会造成死锁
 - 通过Lock可以知道有没有成功获取锁，而synchronized却无法办到.
 
-## synchronized和ReentrantLock的区别
+### synchronized和ReentrantLock的区别
 
 - ReentrantLock使用起来比较灵活，但是必须有释放锁的配合动作
 - ReentrantLock必须手动获取与释放锁，而synchronized不需要手动释放和开启锁
 - ReentrantLock只适用于代码块锁,而synchronized可以修饰类，方法，变量等。
 - ReentrantLock底层调用的是Unsafe的park方法加锁，synchronized操作的应该是对象头中的mark word
 
-## synchronized和volatile的区别
+### synchronized和volatile的区别
 
 - volatile是变量修饰符,synchronized可以修饰类，方法，变量
 - volatile仅能实现变量的修改可见性，不能保证原子性;而synchronized则可以保证变量的修改可见性和原子性
 - volatile不会造成线程的阻塞,synchronized可能会造成线程的阻塞
 - volatile标记的变量不会被编译器优化,synchronized标记的变量可以被编译器优化
 
-## 为什么synchronized无法禁止指令重排，却能保证有序性？
+### 为什么synchronized无法禁止指令重排，却能保证有序性？
 
 synchronized通过排他锁的方式就保证了同一时间内，被synchronized修饰的代码是单线程执行的。
 
-## CAS
+### CAS
 
 CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值(B)。如果内存地址里面的值和 A 的值是一样的，那么就将内存里面的值更新成 B。
 
-## CAS产生的问题
+### CAS产生的问题
 
 - ABA问题:
   一个线程 one 从内存位置 V 中取出 A，这时候另一个线程 two 也从内存中取出 A，并且 two 进行了一些操作变成了 B，然后 two 又将 V 位置的数据变成 A，这时候线程 one 进行 CAS 操作发现内存中仍然是 A，然后 one 操作成功。
@@ -2096,9 +2150,9 @@ CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）
   对于资源竞争严重（线程冲突严重）的情况，CAS 自旋的概率会比较大，从而浪费更多的 CPU 资源，效率低于 synchronized
 - 只能保证一个共享变量的原子操作
 
-## 线程池
+### 线程池
 
-### 参数
+#### 参数
 
 ```java
 ThreadPoolExecutor(int corePoolSize,
@@ -2132,29 +2186,29 @@ ThreadPoolExecutor(int corePoolSize,
 
   当任务队列已满，又有新的任务进来时，会回调此接口。
 
-### 四种拒绝策略
+#### 四种拒绝策略
 
 `ThreadPoolExecutor.AbortPolicy`:丢弃任务并抛出RejectedExecutionException异常。
 `ThreadPoolExecutor.DiscardPolicy`：丢弃任务，但是不抛出异常。
 `ThreadPoolExecutor.DiscardOldestPolicy`：丢弃队列最前面的任务，然后重新提交被拒绝的任务
 `ThreadPoolExecutor.CallerRunsPolicy`：由调用线程（提交任务的线程）处理该任务,一般在不允许失败的、对性能要求不高、并发量较小的场景下使用
 
-### 线程池触发拒绝策略的时机
+#### 线程池触发拒绝策略的时机
 
 当提交的任务数大于corePoolSize时,会优先放到队列缓冲区,只有填满了缓冲区后,才会判断当前运行的任务是否大于maxPoolSize,小于时会新建线程处理,大于时就触发了拒绝策略.
 
-### 四类不同的线程池
+#### 四类不同的线程池
 
 - newCachedThreadPool:创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程
 - newFixedThreadPool:创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待
 - newScheduledThreadPool:创建一个定长线程池，支持定时及周期性任务执行
 - newSingleThreadExecutor:创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行
 
-### 工作流程
+#### 工作流程
 
 ![](https://upload-images.jianshu.io/upload_images/4134622-fbbdbcb6bcc00178.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
 
-### 如何实现线程复用
+#### 如何实现线程复用
 
 1、当Thread的run方法执行完一个任务之后，会循环地从阻塞队列中取任务来执行，这样执行完一个任务之后就不会立即销毁了；
 
@@ -2162,7 +2216,7 @@ ThreadPoolExecutor(int corePoolSize,
 
 https://www.jianshu.com/p/5e952ab2c41b
 
-## CountDownLatch,CyclicBarrier,Semaphore
+### CountDownLatch,CyclicBarrier,Semaphore
 
 CountDownLatch:
 
@@ -2180,7 +2234,7 @@ Semaphore:
 
 Semaphore是一种基于计数的信号量。它可以设定一个阈值，基于此，多个线程竞争获取许可信号，做自己的申请后归还，超过阈值后，线程申请许可信号将会被阻塞。
 
-## AQS（没写完）
+### AQS（没写完）
 
 AQS 全称是 AbstractQueuedSynchronizer，是一个用来构建**锁**和**同步器**的框架，它维护了一个共享资源 state 和一个 FIFO 的等待队列，底层利用了 CAS 机制来保证操作的原子性。
 
@@ -2196,9 +2250,9 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
 
 另外 AQS 中实现的 FIFO 队列（CLH 队列）其实是双向链表实现的，由 head, tail 节点表示，head 结点代表当前占用的线程，其他节点由于暂时获取不到锁所以依次排队等待锁释放。
 
-### 获取锁
+#### 获取锁
 
-## JDBC流程
+### JDBC流程
 
 第一步：加载Driver类，注册数据库驱动；
 第二步：通过DriverManager,使用url，用户名和密码建立连接(Connection)；
@@ -2238,6 +2292,10 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
 ### 强引用
 
 发生gc的时候不会被回收
+
+## finalize()方法什么时候被调用？
+
+垃圾回收器准备释放对象占用的内存时，将首先调用该对象的finalize()方法，并且下一次垃圾回收动作发生时，才真正回收对象占用的内存空间。
 
 ## JVM的结构
 
@@ -2627,6 +2685,16 @@ HandlerInterceptor 接口中也定义了三个方法:
 
 ![](https://user-gold-cdn.xitu.io/2020/7/14/1734bff309fc730f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
+## MySQLr如何建立连接
+
+![handshake](https://gitee.com/xurunxuan/picgo/raw/master/img/07205636_YA23.png)
+
+Step1:客户端向DB发起TCP握手。
+Step2:三次握手成功。与通常流程不同的是，由DB发送HandShake信息。这个Packet里面包含了MySql的能力、加密seed等信息。
+Step3:客户端根据HandShake包里面的加密seed对MySql登录密码进行摘要后，构造Auth认证包发送给DB。
+Step4:DB接收到客户端发过来的Auth包后会对密码摘要进行比对，从而确认是否能够登录。如果能，则发送Okay包返回。
+Step5:客户端与DB的连接至此完毕。
+
 ## MyISAM和InnoDB
 
 - InnoDB支持事务，MyISAM不支持事务
@@ -2634,6 +2702,10 @@ HandlerInterceptor 接口中也定义了三个方法:
 - InnoDB是聚簇索引,MyISAM是非聚簇索引
 - InnoDB不保存表的具体行数，执行select count(*) from table 时需要全表扫描。而MyISAM用一个变量保存了整个表的行数.
 - InnoDB最小的锁粒度是行锁，MyISAM最小的锁粒度是表锁。
+
+## MyISAM的应用场景
+
+MyISAM适合：(1)做很多count 的计算；(2)插入不频繁，查询非常频繁；(3)没有事务。
 
 ## InnoDB的4大特性
 
@@ -2692,6 +2764,80 @@ char是固定长度，varchar长度可变。
 - 删除其中无用数据
 - 重新创建索引
 
+## 为什么InnoDB要有主键
+
+innodb是用聚集索引，所以非聚集索引最后怎么定位到数据就需要靠主键
+
+myisam是非聚集索引，不需要主键定位数据
+
+## count(*) 和 count(1)和count(列名)区别
+
+- 执行效果上：
+
+count(*)包括了所有的列，相当于行数，在统计结果的时候，不会忽略列值为NULL
+count(1)包括了所有列，用1代表代码行，在统计结果的时候，不会忽略列值为NULL
+count(列名)只包括列名那一列，在统计结果的时候，会忽略列值为空（这里的空不是只空字符串或者0，而是表示null）的计数，即某个字段值为NULL时，不统计。
+
+- 执行效率上：
+
+列名为主键，count(列名)会比count(1)快
+列名不为主键，count(1)会比count(列名)快
+如果表多个列并且没有主键，则 count(1) 的执行效率优于 count(*)
+如果有主键，则 select count（主键）的执行效率是最优的
+如果表只有一个字段，则 select count(*) 最优。
+
+## MySQL中in和exists的区别
+
+- exists：exists对外表用loop逐条查询，每次查询都会查看exists的条件语句，当exists里的条件语句能够返回记录行时（无论记录行是的多少，只要能返回），条件就为真，返回当前loop到的这条记录；反之，如果exists里的条件语句不能返回记录行，则当前loop到的这条记录被丢弃，exists的条件就像一个bool条件，当能返回结果集则为true，不能返回结果集则为false
+- in：in查询相当于多个or条件的叠加
+
+如果查询的两个表大小相当，那么用in和exists差别不大。
+
+如果两个表中一个较小，一个是大表，则子查询表大的用exists，子查询表小的用in.
+
+## UNION和UNION ALL的区别
+
+UNION和UNION ALL都是将两个结果集合并为一个，两个要联合的SQL语句 字段个数必须一样，而且字段类型要“相容”（一致）；
+
+
+- UNION在进行表连接后会筛选掉重复的数据记录（效率较低），而UNION ALL则不会去掉重复的数据记录；
+
+- UNION会按照字段的顺序进行排序，而UNION ALL只是简单的将两个结果合并就返回；
+
+## SQL执行顺序
+
+- 手写
+
+```
+SELECT DISTINCT <select_list>
+FROM  <left_table> <join_type>
+JOIN  <right_table> ON <join_condition>
+WHERE  <where_condition>
+GROUP BY  <group_by_list>
+HAVING <having_condition>
+ORDER BY <order_by_condition>
+LIMIT <limit_number>
+```
+
+- 机读
+
+```
+FROM  <left_table>
+ON <join_condition>
+<join_type> JOIN  <right_table> 
+WHERE  <where_condition>
+GROUP BY  <group_by_list>
+HAVING <having_condition>
+SELECT
+DISTINCT <select_list>
+ORDER BY <order_by_condition>
+LIMIT <limit_number>
+```
+
+- 总结
+
+![](https://user-gold-cdn.xitu.io/2020/7/14/1734bff368752ece?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
 ## 关于索引的sql语句
 
 - 创建索引:`CREATE [UNIQUE] INDEX indexName ON mytable(username(length))`
@@ -2734,6 +2880,233 @@ MYSQL使用SPATIAL关键字进行扩展，使得能够用于创建正规索引�
 
 B+树也存在劣势：由于键会重复出现，因此会占用更多的空间。但是与带来的性能优势相比，空间劣势往往可以接受，因此B+树的在数据库中的使用比B树更加广泛。
 
+## B-Tree的性质
+
+一棵m阶的B-Tree有如下特性：
+
+1. 每个节点最多有m个孩子
+2. 除了根节点和叶子节点外，其它每个节点至少有Ceil(m/2)个孩子。
+3. 若根节点不是叶子节点，则至少有2个孩子
+4. 所有叶子节点都在同一层，且不包含其它关键字信息
+5. 每个非终端节点包含n个关键字信息（P0,P1,…Pn, k1,…kn）
+6. 关键字的个数n满足：ceil(m/2)-1 <= n <= m-1
+7. ki(i=1,…n)为关键字，且关键字升序排序
+8. Pi(i=1,…n)为指向子树根节点的指针。P(i-1)指向的子树的所有节点关键字均小于ki，但都大于k(i-1)
+
+![](https://user-gold-cdn.xitu.io/2020/7/14/1734bff356b40f0d?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+## B+Tree的性质
+
+在B+Tree中，所有数据记录节点都是按照键值大小顺序存放在同一层的叶子节点上，而非叶子节点上只存储key值信息.
+
+B+树和B树类似，但多了几条规则
+
+- 非叶子结点的子树指针个数与关键字（节点中的元素个数）个数相同
+- 非叶子结点的子树指针P[i]，指向关键字值属于[K[i], K[i+1])的子树（B-树是开区间）
+- 所有叶子结点有一个链指针
+- 所有关键字都在叶子结点出现
+- 只有叶子节点有Data域
+
+特点：
+
+1、是多叉而不是二叉了，使用多叉的目的是降低树的高度;
+2、每个节点不再只是存储一个key了，可以存储多个key；
+3、非叶子节点存储key，叶子节点存储key和数据。
+4、叶子节点两两相连，为顺序查询提供了帮助
+
+![](https://user-gold-cdn.xitu.io/2020/7/14/1734bff3498c6715?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+## B+Tree索引和Hash索引区别
+
+哈希索引适合等值查询，但是不无法进行范围查询 哈希索引没办法利用索引完成排序 哈希索引不支持多列联合索引的最左匹配规则 如果有大量重复键值得情况下，哈希索引的效率会很低，因为存在哈希碰撞问题
+
+## 为什么不建议使用订单号作为主键?
+
+如果主键是一个很长的字符串并且建了很多普通索引，将造成普通索引占有很大的物理空间，这也是为什么建议使用自增ID来替代订单号作为主键，另一个原因是 自增ID 在插入的时候可以保证相邻的两条记录可能在同一个数据块，而订单号的连续性在设计上可能没有自增ID好，导致连续插入可能在多个数据块，增加了磁盘读写次数。
+
+## 一棵B+树可以存放多少行数据
+
+InnoDB的一个页可以为索引页，也可以为数据页。
+
+首先，InnoDB底层的数据页大小默认为16KB，一般来说，生产环境一行数据为1KB左右，那么一个数据页可以存放16条数据。剩下的只要计算有多少个数据页就行了。
+
+对于索引页，里面数据是怎么存放的呢？
+
+索引页存放的是主键和指针（6 Byte），若建表时没有指定主键，mysql会自动创建一个6Byte的主键。一般数据库中我们使用bigint的自增id作为主键（8Byte），那么一个<主键，指针>对大小为14Byte。一个16KB的索引页可以存放16*1024/14=1170个单元。
+ 一般树高为3层，那么对应的数据页有1170*1170个，数据行数为1170*1170*16=2000W行。
+
+## 聚集索引与非聚集索引的区别
+
+聚簇索引的叶子节点存放的是主键值和数据行，**支持覆盖索引**；二级索引的叶子节点存放的是主键值或指向数据行的指针。
+
+由于节子节点(数据页)只能按照一颗B+树排序，故**一张表只能有一个聚簇索引**。辅助索引的存在不影响聚簇索引中数据的组织，所以一张表可以有多个辅助索引
+
+## MyISAM主键索引和辅助索引的结构
+
+MyISAM引擎索引结构的叶子节点的数据域，存放的并不是实际的数据记录，而是数据记录的地址。
+
+![](https://img2018.cnblogs.com/i-beta/1464190/201911/1464190-20191106145143172-1760681728.png)
+
+## InnoDB如何实现聚集（聚簇）索引
+
+MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记录的地址。而在InnoDB中，表数据文件本身就是按B+Tree组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。
+
+聚集索引就是按照每张表的主键构造一棵B+树，同时叶子节点中存放的即为整张表的行记录数据，也将聚集索引的叶子节点称为数据页。
+
+在Innodb中一张表中聚簇索引建立的过程：
+
+1) 有主键时，根据主键创建聚簇索引
+2)  没有主键时，会用一个唯一且不允许为空的索引列做为主键，成为此表的聚簇索引
+3) 如果表中没有主键或者一个合适的的唯一索引，InnoDB内部会以一个包含行ID值的合成列生成一个隐藏的聚簇索引。表中的行是按照InnoDB分配的ID排序的。行ID是一个6字节的字段，随着一个新行的插入单调增加。因此，行ID顺序物理上是插入顺序。
+
+## 回表查询
+
+1. 在辅助索引上检索列值，到达其叶子节点获取对应的主键
+2. 使用主键在主索引上再进行对应的检索操作
+
+## full-text全文索引
+
+- 全文索引也是MyISAM的一种特殊索引类型，主要用于全文索引，InnoDB从MYSQL5.6版本提供对全文索引的支持。
+
+- 它用于替代效率较低的LIKE模糊匹配操作，而且可以通过多字段组合的全文索引一次性全模糊匹配多个字段。
+
+- 同样使用B-Tree存放索引数据，但使用的是特定的算法，将字段数据分割后再进行索引（一般每4个字节一次分割），索引文件存储的是分割前的索引字符串集合，与分割后的索引信息，对应Btree结构的节点存储的是分割后的词信息以及它在分割前的索引字符串集合中的位置。
+
+
+## 与索引有关的SQL语句
+
+- 创建:`CREATE [UNIQUE] INDEX indexName ON mytable(username(length));`
+- 修改表结构(添加索引):`ALTER table tableName ADD [UNIQUE] INDEX indexName(columnName)`
+- 删除:`DROP INDEX [indexName] ON mytable;`
+- 查看:`SHOW INDEX FROM table_name\G`(\G格式化输出)
+- 使用ALERT命令:
+  - `ALTER TABLE tbl_name ADD PRIMARY KEY (column_list)`:该语句添加一个主键，这意味着索引值必须是唯一的，且不能为NULL。
+  - `ALTER TABLE tbl_name ADD UNIQUE index_name (column_list)`:这条语句创建索引的值必须是唯一的（除了NULL外，NULL可能会出现多次）。
+  - `ALTER TABLE tbl_name ADD INDEX index_name (column_list)`:添加普通索引，索引值可出现多次。
+
+## 哪些情况需要创建索引
+
+1. 主键自动建立唯一索引
+
+2. 频繁作为查询条件的字段
+
+3. 查询中与其他表关联的字段，外键关系建立索引
+
+4. 单键/组合索引的选择问题，高并发下倾向创建组合索引
+
+5. 查询中排序的字段，排序字段通过索引访问大幅提高排序速度
+
+6. 查询中统计或分组字段
+
+## 哪些情况不要创建索引
+
+1. 表记录太少
+2. 经常增删改的表
+3. 数据重复且分布均匀的表字段，只应该为最经常查询和最经常排序的数据列建立索引（如果某个数据类包含太多的重复数据，建立索引没有太大意义）
+4. 频繁更新的字段不适合创建索引（会加重IO负担）
+5. where条件里用不到的字段不创建索引
+
+## 索引覆盖
+
+select的数据列只用从索引中就能够取得，不必读取数据行，MySQL可以利用索引返回select列表中的字段，而不必根据索引再次读取数据文件，换句话说查询列要被所建的索引覆盖。
+
+**判断标准**：
+
+使用explain，可以通过输出的extra列来判断，对于一个索引覆盖查询，显示为using index，MySQL查询优化器在执行查询前会决定是否有索引覆盖查询
+
+## 索引不生效 前缀索引
+
+[](https://mp.weixin.qq.com/s/-gmAPfiKMNJgHhIZqR2C4A)
+
+## 索引设计准则:三星索引
+
+法则：将选择性最高的列放在索引的最前列，这种建立在某些场景可能有用，但通常不如避免随机 IO 和 排序那么重要，这里引入索引设计中非常著名的一个准则：三星索引。
+
+如果一个查询满足三星索引中三颗星的所有索引条件，**理论上**可以认为我们设计的索引是最好的索引。什么是三星索引
+
+1. 第一颗星：WHERE 后面参与查询的列可以组成了单列索引或联合索引
+2. 第二颗星：避免排序，即如果 SQL 语句中出现 order by colulmn，那么取出的结果集就已经是按照 column 排序好的，不需要再生成临时表
+3. 第三颗星：SELECT 对应的列应该尽量是索引列，即尽量避免回表查询。
+
+## 事务的基本要素
+
+- A (Atomicity) 原子性：整个事务中的所有操作，要么全部完成，要么全部不完成，不可能停滞在中间某个环节。
+- C (Consistency) 一致性：在事务开始之前和事务结束以后，数据库的完整性约束没有被破坏
+- I (Isolation)隔离性：一个事务的执行不能其它事务干扰。即一个事务内部的操作及使用的数据对其它并发事务是隔离的，并发执行的各个事务之间不能互相干扰
+- D (Durability) 持久性：在事务完成以后，该事务所对数据库所作的更改便持久的保存在数据库之中，并不会被回滚
+
+## 并发事务处理带来的问题
+
+**更新丢失（Lost Update)**:
+
+事务A和事务B选择同一行，然后基于最初选定的值更新该行时，由于两个事务都不知道彼此的存在，就会发生丢失更新问题
+
+**脏读(Dirty Reads) -> 读取到了未提交的数据**:
+
+事务A读取了事务B更新的数据，然后B回滚操作，那么A读取到的数据是脏数据
+
+| 事务A | 事务B |
+| :-: | :-: |
+| | `SET GLOBAL TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;` |
+| `START TRANSACTION;` | |
+|  | `select @@transaction_isolation;` |
+|  | `UPDATE test.testnum SET num=num*2 WHERE num=2;` |
+| `SELECT * FROM testnum;` | |
+| | |
+
+![](https://yueqilai-images.oss-cn-beijing.aliyuncs.com/脏读示例.png)
+
+
+
+**不可重复读（Non-Repeatable Reads) -> 前后多次读取，数据内容不一致**：
+
+事务 A 多次读取同一数据，事务B在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果不一致。
+
+| 时间顺序 | 事务A | 事务B |
+| :-: | :-: | :-: |
+| 1 | 开始事务 | |
+| 2 | 第一次查询，小明的年龄为20岁 | |
+| 3 | | 开始事务 |
+| 4 | 其他操作 | |
+| 5 | | 更改小明的年龄为30岁 |
+| 6 | | 提交事务 |
+| 7 | 第二次查询，小明的年龄为30岁 | |
+| 备注 | 按照正确逻辑，事务A前后两次读取到的数据应该一致|
+
+**幻读（Phantom Reads) -> 前后多次读取，数据总量不一致**：
+
+幻读与不可重复读类似。它发生在一个事务A读取了几行数据，接着另一个并发事务B插入了一些数据时。在随后的查询中，事务A就会发现多了一些原本不存在的记录，就好像发生了幻觉一样，所以称为幻读。
+
+| 时间顺序 | 事务A | 事务B |
+| :-: | :-: | :-: |
+| 1 | 开始事务 | |
+| 2 | 第一次查询，数据总量为100条 | |
+| 3 | | 开始事务 |
+| 4 | 其他操作 | |
+| 5 | | 新增100条数据 |
+| 6 | | 提交事务 |
+| 7 | 第二次查询，数据总量为200条 | |
+| 备注 | 按照正确逻辑，事务A前后两次读取到的数据总量应该一致|
+
+## 事务隔离级别
+
+查看事务隔离级别:`select @@transaction_isolation;`
+
+数据库事务的隔离级别有4种，由低到高分别为
+
+- `READ-UNCOMMITTED(读未提交)`： 最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。
+- `READ-COMMITTED(读已提交)`： 允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。
+- `REPEATABLE-READ(可重复读)`： 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。**MySQL默认隔离级别**
+  **不可重复读对应的是修改，即UPDATE操作。但是可能还会有幻读问题。因为幻读问题对应的是插入INSERT操作，而不是UPDATE操作。**
+- `SERIALIZABLE(可串行化)`： 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。
+
+| 隔离级别 | 脏读 | 不可重复读 | 幻读 |
+| :-: | :-: | :-: | :-: |
+| 读未提交 | 可能 | 可能 | 可能 |
+| 读提交 | 不可能 | 可能 | 可能 |
+| 可重复读 | 不可能 | 不可能 | 可能 |
+| 串行化 | 不可能 | 不可能 | 不可能 |
+
 ## mvcc实现原理
 
 对于使用InnoB引擎的表来说，它的聚簇索引记录中都包含两个必要的隐藏列：
@@ -2744,6 +3117,22 @@ roll_pointer：每次对某条聚簇索引记录进行改动时，都会把旧�
 ```
 
 每次对记录改动，都会记录一条undo日志，每条undo日志也都有一个roll_pointer属性（INSERT操作对应的undo日志没有该属性，因为该记录并没有更早的版本），将这条数据的undo日志组成一个链表；即为版本链。版本链的头节点就是当前记录的最新值。
+
+## REPEATABLE READ（可重读）隔离级别下MVCC如何工作
+
+- SELECT: 
+  InnoDB会根据以下两个条件检查每行记录：
+  - InnoDB只查找版本早于当前事务版本的数据行，这样可以确保事务读取的行，要么是在开始事务之前已经存在要么是事务自身插入或者修改过的
+  - 行的删除版本号要么未定义，要么大于当前事务版本号，这样可以确保事务读取到的行在事务开始之前未被删除
+  只有符合上述两个条件的才会被查询出来
+- INSERT:
+  InnoDB为新插入的每一行保存当前系统版本号作为行版本号
+- DELETE:
+  InnoDB为删除的每一行保存当前系统版本号作为行删除标识
+- UPDATE:
+  InnoDB为插入的一行新记录保存当前系统版本号作为行版本号，同时保存当前系统版本号到原来的行作为删除标识
+
+MVCC 只在 COMMITTED READ（读提交）和REPEATABLE READ（可重复读）两种隔离级别下工作。
 
 ## MVCC中的ReadView(可读视图)
 
@@ -2759,15 +3148,461 @@ ReadView中主要就是有个列表来存储我们系统中当前活跃着的读
 
 ![img](https://gitee.com/xurunxuan/picgo/raw/master/img/v2-fef7954f5e3c7713f48b35597e7f9fb8_720w.jpg)
 
-## 日志 redo undo binlog
+## MVCC和next-key lock为什么不能完全解决幻读
+
+[](https://blog.csdn.net/weixin_42907817/article/details/107121470)
+
+平常我们学习的rr确实存在幻读问题，但是在innodb下不同，它可以解决，但是解决的并不完美。
+首先我们可以通过手动加锁阻塞另一个线程的insert，也就是通过innodb的next-key算法，其次我们也可以通过mvcc实现快照读，但是mvcc存在缺陷，就是一旦某个事物在事务中的修改操作覆盖到了其他事务插入的“幻行”，那么这些“幻行”在下次查询时就会再次出现，从而出现幻象问题。
+
+## MySQL中有哪几种锁
+
+MySQL中从对数据操作的类型分类：
+
+- 读锁（共享锁）：针对同一份数据，多个读操作可以同时进行，不会互相影响
+
+- 写锁（排他锁）：当前写操作没有完成前，它会阻断其他写锁和读锁
+
+从对数据操作的粒度分类:
+
+- 表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低
+- 行级锁:开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高
+- 页面锁:开销和加锁时间界于表锁和行锁之间；会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般。
+
+MyISAM的表锁有两种模式:
+
+- 表共享读锁 （Table Read Lock）：不会阻塞其他用户对同一表的读请求，但会阻塞对同一表的写请求；
+- 表独占写锁 （Table Write Lock）：会阻塞其他用户对同一表的读和写操作；
+
+MyISAM 表的读操作与写操作之间，以及写操作之间是串行的。默认情况下，写锁比读锁具有更高的优先级：当一个锁释放时，这个锁会优先给写锁队列中等候的获取锁请求，然后再给读锁队列中等候的获取锁请求。
+
+InnoDB中实现了两种类型的行锁:
+
+- 共享锁（S）：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁。
+- 排他锁（X）：允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享读锁和排他写锁。
+
+为了允许行锁和表锁共存，还有两种内部使用的意向锁（表锁）:
+
+- 意向共享锁（IS）：事务打算给数据行加行共享锁，事务在给一个数据行加共享锁前必须先取得该表的 IS 锁。
+- 意向排他锁（IX）：事务打算给数据行加行排他锁，事务在给一个数据行加排他锁前必须先取得该表的 IX 锁。
+
+| | X | IX | S | IS |
+| :-: | :-: | :-: | :-: | :-: |
+| X | 冲突 | 冲突 | 冲突 | 冲突 |
+| IX | 冲突 | 兼容 | 冲突 | 兼容 |
+| S | 冲突 | 冲突 | 兼容 | 兼容 |
+| IS | 冲突 | 冲突 | 兼容 | 兼容 |
+
+索引失效会导致行锁变表锁.
+
+MySQL的行锁是针对索引加的锁，不是针对记录加的锁，所以虽然是访问不同行的记录，但是如果是使用相同的索引键，是会出现锁冲突的。
+
+当表有多个索引的时候，不同的事务可以使用不同的索引锁定不同的行，另外，不论是使用主键索引、唯一索引或普通索引，InnoDB都会使用行锁来对数据加锁。
+
+即便在条件中使用了索引字段，但是否使用索引来检索数据是由MySQL通过**判断不同执行计划的代价**来决定的，如果MySQL认为全表扫描效率更高，比如对一些很小的表，它就不会使用索引，这种情况下InnoDB将使用表锁，而不是行锁。因此，在分析锁冲突时，别忘了检查SQL的执行计划，以确认是否真正使用了索引。
+
+## 为什么没有意向锁的话，表锁和行锁不能共存？
+
+举个粟子（此时假设行锁和表锁能共存）： 事务A锁住表中的一行（写锁）。事务B锁住整个表（写锁）。
+
+但你就会发现一个很明显的问题，事务A既然锁住了某一行，其他事务就不可能修改这一行。这与”事务B锁住整个表就能修改表中的任意一行“形成了冲突。所以，没有意向锁的时候，行锁与表锁共存就会存在问题！
+
+## 意向锁是如何让表锁和行锁共存的？
+
+有了意向锁之后，前面例子中的事务A在申请行锁（写锁）之前，数据库会自动先给事务A申请表的意向排他锁。当事务B去申请表的写锁时就会失败，因为表上有意向排他锁之后事务B申请表的写锁时会被阻塞。
+
+所以，意向锁的作用就是：
+
+当一个事务在需要获取资源的锁定时，如果该资源已经被排他锁占用，则数据库会自动给该事务申请一个该表的意向锁。如果自己需要一个共享锁定，就申请一个意向共享锁。如果需要的是某行（或者某些行）的排他锁定，则申请一个意向排他锁。
+
+## 意向锁是表锁还是行锁
+
+首先可以肯定的是，意向锁是表级别锁。意向锁是表锁是有原因的。
+
+当我们需要给一个加表锁的时候，我们需要根据意向锁去判断表中有没有数据行被锁定，以确定是否能加成功。如果意向锁是行锁，那么我们就得遍历表中所有数据行来判断。如果意向锁是表锁，则我们直接判断一次就知道表中是否有数据行被锁定了。
+
+## MySQL中InnoDB引擎的行锁是怎么实现的
+
+InnoDB有三种行锁的算法:
+
+- `记录锁(Record Locks)`:单个行记录上的锁。对索引项加锁，锁定符合条件的行。其他事务不能修改和删除加锁项；
+- `间隙锁（Gap Locks）`:使用范围条件检索数据并请求共享或排他锁时，InnoDB会给符合条件的已有数据记录的索引项加锁。
+  eg:`SELECT * FROM table WHERE id BETWEN 1 AND 10 FOR UPDATE;
+`所有在(1,10)区间内的记录行都会被锁住.所有id 为 2、3、4、5、6、7、8、9 的数据行的插入会被阻塞，但是 1 和 10 两条记录行并不会被锁住。
+  GAP锁的目的，是为了防止同一事务的两次当前读，出现幻读的情况
+- `临键锁(Next-key Locks)`:它的封锁范围，既包含索引记录，又包含索引区间。通过临键锁只与非唯一索引列有关.当某个事务持有该数据行的临键锁时，会锁住一段左开右闭区间的数据。
+
+## select for update的含义
+
+`for update`仅适用于InnoDB，且必须在事务块(BEGIN/COMMIT)中才能生效.通过这条语句,MySQL会对查询结果集中每行数据都添加排他锁，其他线程对该记录的更新与删除操作都会阻塞。
+
+只有通过索引条件检索数据，InnoDB才使用行级锁，否则，InnoDB将使用表锁
+
+## 获取InnoDB行锁争用情况
+
+可以通过检查InnoDB_row_lock状态变量来分析系统上的行锁的争夺情况：
+
+```
+mysql> show status like 'innodb_row_lock%';  
++-------------------------------+-------+  
+| Variable_name                 | Value |  
++-------------------------------+-------+  
+| InnoDB_row_lock_current_waits | 0     |  
+| InnoDB_row_lock_time          | 0     |  
+| InnoDB_row_lock_time_avg      | 0     |  
+| InnoDB_row_lock_time_max      | 0     |  
+| InnoDB_row_lock_waits         | 0     |  
++-------------------------------+-------+  
+```
+
+## InnoDB存储引擎中不同SQL在不同隔离级别下锁的比较
+
+<table>
+  <tr>
+    <td colspan="2">隔离级别 一致性读和锁 SQL </td>
+    <td>Read Uncommited</td>
+    <td>Repeatable Read</td>
+    <td>Serializable</td>
+  </tr>
+  <tr>
+    <td>SQL</td>
+    <td>条件</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td rowspan="2">select</td>
+    <td>相等</td>
+    <td>None locks</td>
+    <td>Consisten read/None lock</td>
+    <td>Consisten read/None lock</td>
+    <td>Share locks</td>
+  </tr>
+  <tr>
+    <td>范围</td>
+    <td>None locks</td>
+    <td>Consisten read/None lock</td>
+    <td>Consisten read/None lock</td>
+    <td>Share Next-Key</td>
+  </tr>
+  <tr>
+    <td rowspan="2">update</td>
+    <td>相等</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>Exclusive locks</td>
+  </tr>
+  <tr>
+    <td>范围</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+  </tr>
+  <tr>
+    <td>insert</td>
+    <td>N/A</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>Exclusive locks</td>
+  </tr>
+  <tr>
+    <td rowspan="2">replace</td>
+    <td>无键冲突</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>Exclusive locks</td>
+  </tr>
+  <tr>
+    <td>键冲突</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+  </tr>
+  <tr>
+    <td rowspan="2">delete</td>
+    <td>相等</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>Exclusive locks</td>
+  </tr>
+  <tr>
+    <td>范围</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+  </tr>
+  <tr>
+    <td rowspan="2">select ... from ... lock in share mode</td>
+    <td>相等</td>
+    <td>Share locks</td>
+    <td>Share locks</td>
+    <td>Share locks</td>
+    <td>Share locks</td>
+  </tr>
+  <tr>
+    <td>范围</td>
+    <td>Share locks</td>
+    <td>Share locks</td>
+    <td>share next-key</td>
+    <td>share next-key</td>
+  </tr>
+  <tr>
+    <td rowspan="2">select * from ... for update</td>
+    <td>相等</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>exclusive locks</td>
+    <td>Exclusive locks</td>
+  </tr>
+  <tr>
+    <td>范围</td>
+    <td>exclusive locks</td>
+    <td>share locks</td>
+    <td>exclusive next-key</td>
+    <td>exclusive next-key</td>
+  </tr>
+  <tr>
+    <td rowspan="2">insert into ... select ...(指源表锁)</td>
+    <td>innodb_locks_unsafe_for_binlog=off</td>
+    <td>Share next-key</td>
+    <td>Share next-key</td>
+    <td>Share next-key</td>
+    <td>Share next-key</td>
+  </tr>
+  <tr>
+    <td>innodb_locks_unsafe_for_binlog=on</td>
+    <td>none locks</td>
+    <td>Consisten read/None lock</td>
+    <td>Consisten read/None lock</td>
+    <td>Share Next-Key</td>
+  </tr>
+  <tr>
+    <td rowspan="2">create table ... select ...(指源表锁)</td>
+    <td>innodb_locks_unsafe_for_binlog=off</td>
+    <td>Share next-key</td>
+    <td>Share next-key</td>
+    <td>Share next-key</td>
+    <td>Share next-key</td>
+  </tr>
+  <tr>
+    <td>innodb_locks_unsafe_for_binlog=on</td>
+    <td>none locks</td>
+    <td>Consisten read/None lock</td>
+    <td>Consisten read/None lock</td>
+    <td>Share Next-Key</td>
+  </tr>
+</table>
+
+## 数据库死锁怎么处理
+
+1.每个事务都有一个时间阀值，如果该事务超时，那么就回滚该事务。
+
+这样实现简单，但是，如果事务操作很多行，占用了较多的undolog，而另外一个事务占用较少，这样不合适，而且超时不是一种主动检查死锁的方式。
+
+2.使用等待图
+
+比如，row1事务2上写锁，事务1上读锁，那么事务1就要等事务2，就是说事务1指向事务2，可以用深度遍历，如果存在环，那么挑一个undo log量最小的来进行回滚。
+
+## 如何避免死锁
+
+MyISAM避免死锁:
+
+在自动加锁的情况下，MyISAM 总是一次获得 SQL 语句所需要的全部锁，所以 MyISAM 表不会出现死锁。
+
+InnoDB避免死锁:
+
+- 为了在单个InnoDB表上执行多个并发写入操作时避免死锁，可以在事务开始时通过为预期要修改的每个元祖（行）使用SELECT ... FOR UPDATE语句来获取必要的锁，即使这些行的更改语句是在之后才执行的。
+- 在事务中，如果要更新记录，应该直接申请足够级别的锁，即排他锁，而不应先申请共享锁、更新时再申请排他锁，因为这时候当用户再申请排他锁时，其他事务可能又已经获得了相同记录的共享锁，从而造成锁冲突，甚至死锁
+- 如果事务需要修改或锁定多个表，则应在每个事务中以相同的顺序使用加锁语句。 在应用中，如果不同的程序会并发存取多个表，应尽量约定以相同的顺序来访问表，这样可以大大降低产生死锁的机会
+- 通过SELECT ... LOCK IN SHARE MODE获取行的读锁后，如果当前事务再需要对该记录进行更新操作，则很有可能造成死锁。
+- 改变事务隔离级别
+
+## 数据恢复策略
+
+[](https://www.cnblogs.com/gxcstyle/p/6881477.html)
+
+系统故障
+系统故障的恢复是由系统在重新启动时候自动完成的，不需要用户干预。
+系统的恢复步骤是：
+（1）正向扫描日志文件（即从头扫描日志文件），找出在故障发生前已经提交的事务（这些事务既有BEGIN TRANSACTION记录，也有COMMIT记录），将其事务标识记入重做（REDO）队列。同时找出故障发生时尚未完成的事务（这些事务只有BEGIN TRANSACTION记录，无相应的COMMIT记录）,将其事务标识记入撤销队列。
+（2）对撤销队列中的各个事务进行撤销（UNDO）处理。
+进行UNDO处理的方法是，反向扫描日志文件，对每一个UNDO事务的更新操作执行逆操作，将将日志记录中"更新前的值"写入数据库（该方法和事务故障的解决方法一致）。
+（3）对重做队列中的各个事务进行重做（REDO）处理。
+进行REDO处理的方法是：正向扫描日志文件，对每一个REDO事务从新执行日志文件登记的操作。即将日志记录中"更新后的值"写入数据库。
+
+MySQL的恢复机制要求：在一个事务未提交前，其他并发事务不能插入满足其锁定条件的任何记录，也就是不允许出现幻读
+
+## 日志 
+
+- 错误日志：对MySQL启动，运行，关闭过程进行了记录
+
+- 慢查询日志：帮助DBA定位可能存在问题的SQL语句，进行SQL语句层面的优化
+
+- 查询日志：记录所有对MySQL数据库请求的信息，无论这些请求是否得到了正确的执行。
+
+- 二进制日志：记录对MySQL数据库执行更改的所有操作。
+
+  作用：
+
+  - 恢复：某些数据的恢复需要二进制日志
+
+  - 复制：通过复制和执行二进制日志使一台远程的MySQL数据库和一台MySQL数据库进行实时同步
+
+  - 审计：用户可以通过二进制日志中的信息来进行审计，判断是否有对数据库进行注入的攻击
+
+### bin log和redo log的区别
 
 `binlog`记载的是`update/delete/insert`这样的SQL语句，而`redo log`记载的是物理修改的内容（xxxx页修改了xxx）。`redo log` 记录的是数据的**物理变化**，`binlog` 记录的是数据的**逻辑变化**
+
+### bin log
+
+MySQL的Binlog是按照事务提交的先后顺序记录的，恢复也是按这个顺序进行的。
+
+### undo log
 
 `undo log`主要有两个作用：回滚和多版本控制(MVCC)
 
 `undo log`主要存储的也是逻辑日志，比如我们要`insert`一条数据了，那`undo log`会记录的一条对应的`delete`日志。我们要`update`一条记录时，它会记录一条对应**相反**的update记录。
 
-## explain详解
+#### undo log的写入时机
+
+- DML操作修改聚簇索引前，记录undo日志
+- 二级索引记录的修改，不记录undo日志
+
+需要注意的是，undo页面的修改，同样需要记录redo日志。
+
+#### undo log的存储位置
+
+在InnoDB存储引擎中，undo存储在回滚段(Rollback Segment)中,每个回滚段记录了1024个undo log segment，而在每个undo log segment段中进行undo 页的申请，在5.6以前，Rollback Segment是在共享表空间里的，5.6.3之后，可通过 innodb_undo_tablespace设置undo存储的位置。
+
+### redo log 重做日志
+
+Redo log可以简单分为以下两个部分：
+
+- 一是内存中重做日志缓冲 (redo log buffer),是易失的，在内存中
+
+- 二是重做日志文件 (redo log file)，是持久的，保存在磁盘中
+
+#### 什么时候写入?
+
+写入Redo的时机：
+
+- 在数据页修改完成之后，在脏页刷出磁盘之前，写入redo日志。注意的是先修改数据，后写日志
+
+- **redo日志比数据页先写回磁盘**
+
+- 聚集索引、二级索引、undo页面的修改，均需要记录Redo日志。
+
+#### 整体流程
+
+第一步：先将原始数据从磁盘中读入内存中来，修改数据的内存拷贝
+
+第二步：生成一条重做日志并写入redo log buffer，记录的是数据被修改后的值
+
+第三步：当事务commit时，将redo log buffer中的内容刷新到 redo log file，对 redo log file采用追加写的方式
+
+第四步：定期将内存中修改的数据刷新到磁盘中
+
+### binlog和redo log写入的细节
+
+`redo log`**事务开始**的时候，就开始记录每次的变更信息，而`binlog`是在**事务提交**的时候才记录。
+
+于是新有的问题又出现了：我写其中的某一个`log`，失败了，那会怎么办？现在我们的前提是先写`redo log`，再写`binlog`，我们来看看：
+
+- 如果写`redo log`失败了，那我们就认为这次事务有问题，回滚，不再写`binlog`。
+- 如果写`redo log`成功了，写`binlog`，写`binlog`写一半了，但失败了怎么办？我们还是会对这次的**事务回滚**，将无效的`binlog`给删除（因为`binlog`会影响从库的数据，所以需要做删除操作）
+- 如果写`redo log`和`binlog`都成功了，那这次算是事务才会真正成功。
+
+简单来说：MySQL需要保证`redo log`和`binlog`的**数据是一致**的，如果不一致，那就乱套了。
+
+- 如果`redo log`写失败了，而`binlog`写成功了。那假设内存的数据还没来得及落磁盘，机器就挂掉了。那主从服务器的数据就不一致了。（从服务器通过`binlog`得到最新的数据，而主服务器由于`redo log`没有记载，没法恢复数据）
+- 如果`redo log`写成功了，而`binlog`写失败了。那从服务器就拿不到最新的数据了。
+
+MySQL通过**两阶段提交**来保证`redo log`和`binlog`的数据是一致的。
+
+### 为什么有了redo log还需要bin log
+
+- `redo log`的大小是固定的，日志上的记录修改落盘后，日志会被覆盖掉，无法用于数据回滚/数据恢复等操作
+- `redo log`是innodb引擎层实现的，并不是所有引擎都有
+- `bin log`是server层实现的，意味着所有引擎都可以使用binlog日志
+- `bin log`是通过追加的方式写入的，可通过配置参数`max_binlog_size`设置每个binlog文件的大小，当文件大小大于给定值后，日志会发生滚动，之后的日志记录到新的文件上。
+- `bin log`有两种记录模式，statement格式的话是记sql语句， row格式会记录行的内容，记两条，更新前和更新后都有。
+
+## 排序
+
+当排序的字段没有索引时，先根据查询条件获取结果集，然后在内存中对这个结果集进行排序，如果结果集数量特别大，还需要将结果集写入到多个文件里，然后单独对每个文件里的数据进行排序，然后在文件之间进行归并，排序完成后在进行 limit 操作。
+
+```
+CREATE TABLE `person` (
+  `id` int(11) NOT NULL,
+  `city` varchar(16) NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `age` int(11) NOT NULL,
+  `addr` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `city` (`city`)
+) ENGINE=InnoDB;
+
+select city,name,age from person where city='武汉' order by name limit 100  ;
+```
+使用 explain 发现该语句会使用 city 索引，并且会有 filesort . 我们分析下该语句的执行流程
+
+- 1.初始化 sortbuffer ，用来存放结果集
+
+- 2.找到 city 索引，定位到 city 等于武汉的第一条记录，获取主键索引ID
+
+- 3.根据 ID 去主键索引上找到对应记录，取出 city,name,age 字段放入 sortbuffer
+
+- 4.在 city 索引取下一个 city 等于武汉的记录的主键ID
+
+- 5.重复上面的步骤，直到所有 city 等于武汉的记录都放入 sortbuffer
+
+- 6.对 sortbuffer 里的数据根据 name 做快速排序
+
+- 7.根据排序结果取前面 1000 条返回
+
+  这里是查询 city,name,age 3个字段，比较少，如果查询的字段较多，则多个列如果都放入 sortbuffer 将占有大量内存空间，另一个方案是只区出待排序的字段和主键放入 sortbuffer 这里是 name 和 id ,排序完成后在根据 id 取出需要查询的字段返回，其实就是时间换取空间的做法，这里通过 max_length_for_sort_data 参数控制，是否采用后面的方案进行排序。
+
+另外如果 sortbuffer 里的条数很多，同样会占有大量的内存空间，可以通过参数 sort_buffer_size 来控制是否需要借助文件进行排序，这里会把 sortbuffer 里的数据放入多个文件里，用归并排序的思路最终输出一个大的文件。
+
+以上方案主要是 name 字段没有加上索引，如果 name 字段上有索引，由于索引在构建的时候已经是有序的了，所以就不需要进行额外的排序流程只需要在查询的时候查出指定的条数就可以了，这将大大提升查询速度。我们现在加一个 city 和 name 的联合索引。
+
+```
+alter table person add index city_user(city, name);
+```
+
+这样查询过程如下：
+
+- 1.根据 city,name 联合索引定位到 city 等于武汉的第一条记录，获取主键索引ID
+- 2.根据 ID 去主键索引上找到对应记录，取出 city,name,age 字段作为结果集返回
+- 3.继续重复以上步骤直到 city 不等于武汉，或者条数大于 1000
+
+由于联合所以在构建索引的时候，在 city 等于武汉的索引节点中的数据已经是根据 name 进行排序了的，所以这里只需要直接查询就可，另外这里如果加上 city, name, age 的联合索引，则可以用到索引覆盖，不行到主键索引上进行回表。
+
+总结一下，我们在有排序操作的时候，最好能够让排序字段上建有索引，另外由于查询第一百万条开始的一百条记录，需要过滤掉前面一百万条记录，即使用到索引也很慢，所以可以根据 ID 来进行区分，分页遍历的时候每次缓存上一次查询结果最后一条记录的 id ， 下一次查询加上 id > xxxx limit 0,1000 这样可以避免前期扫描到的结果被过滤掉的情况。
+
+## MySQL中有一条SQL比较慢
+
+回答Pass标准：
+
+1. 先看explain sql， 看看SQL的执行计划。
+
+2. 执行计划中重点关注，走到了哪个索引，如果没有索引，则建立索引
+
+ 原因，好的索引可以减少查找全表的数据遍历。
+
+3. 额外能够回答出：关注临时表创建，关注回表，关注索引覆盖，关注驱动表之中的最少一个。 
+
+## explain详解（没写）
 
 [](https://www.jianshu.com/p/be1c86303c80)
 
@@ -2825,6 +3660,44 @@ slave会从master读取binlog来进行数据同步
 **分库**:
 
 一个库里表太多了，导致了海量数据，系统性能下降，把原本存储于一个库的表拆分存储到多个库上， 通常是将表按照功能模块、关系密切程度划分出来，部署到不同库上。
+
+## 分布式数据库数据一致性原理说明与实现（没写）
+
+[](https://cloud.tencent.com/developer/article/1013767)
+
+Raft算法保障的
+
+## Join算法原理（没写）
+
+[](https://zhuanlan.zhihu.com/p/54275505)
+
+![](https://user-gold-cdn.xitu.io/2020/7/14/1734bff37ac0e7f6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+## SQL truncate,delete与drop区别(没写)
+
+[SQL truncate,delete与drop区别](https://www.cnblogs.com/8765h/archive/2011/11/25/2374167.html)
+
+1. truncate 和 delete 只删除数据不删除表的结构(定义)
+   drop 语句将删除表的结构被依赖的约束(constrain)、触发器(trigger)、索引(index)；依赖于该表的存储过程/函数将保留,但是变为 invalid 状态。
+
+2. delete 语句是数据库操作语言(dml)，这个操作会放到 rollback segement 中，事务提交之后才生效；如果有相应的 trigger，执行的时候将被触发。
+   truncate、drop 是数据库定义语言(ddl)，操作立即生效，原数据不放到 rollback segment 中，不能回滚，操作不触发 trigger。
+
+## 预编译语句
+
+通常我们的一条sql在db接收到最终执行完毕返回可以分为下面三个过程：
+
+1. 词法和语义解析
+2. 优化sql语句，制定执行计划
+3. 执行并返回结果
+
+我们把这种普通语句称作**Immediate Statements**。
+
+但是很多情况，我们的一条sql语句可能会反复执行，或者每次执行的时候只有个别的值不同（比如query的where子句值不同，update的set子句值不同,insert的values值不同）。
+如果每次都需要经过上面的词法语义解析、语句优化、制定执行计划等，则效率就明显不行了。
+
+所谓预编译语句就是将这类语句中的值用占位符替代，可以视为将sql语句模板化或者说参数化，一般称这类语句叫**Prepared Statements**或者**Parameterized Statements**
+预编译语句的优势在于归纳为：**一次编译、多次运行，省去了解析优化等过程；此外预编译语句能防止sql注入。**
 
 # 算法题
 
