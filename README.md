@@ -155,7 +155,7 @@
     - [终止线程运行的情况](#终止线程运行的情况)
     - [重排序实际执行的指令步骤](#重排序实际执行的指令步骤)
     - [as-if-serial和happens-before规则的区别](#as-if-serial和happens-before规则的区别)
-    - [Java内存模型](#java内存模型)
+    - [Java内存模型（JMM）](#java内存模型jmm)
     - [volatile](#volatile)
       - [为什么其他线程能感知到变量更新?（原理）](#为什么其他线程能感知到变量更新原理)
       - [volatile如何实现禁止指令重排](#volatile如何实现禁止指令重排)
@@ -325,6 +325,13 @@
   - [单例模式](#单例模式)
 - [操作系统(Linux)](#操作系统linux)
   - [cpu负载和cpu利用率的区别](#cpu负载和cpu利用率的区别)
+- [ElasticSearch](#elasticsearch)
+  - [全文搜索](#全文搜索)
+  - [倒排索引](#倒排索引)
+  - [核心概念](#核心概念)
+    - [Index](#index)
+    - [Document&field](#documentfield)
+    - [elasticsearch核心概念vs数据库核心概念](#elasticsearch核心概念vs数据库核心概念)
 - [算法题](#算法题)
   - [只出现一次的数字(136)](#只出现一次的数字136)
   - [阶乘后的零(172)](#阶乘后的零172)
@@ -2198,7 +2205,7 @@ https://blog.csdn.net/javazejian/article/details/77410889
 - as-if-serial语义保证单线程内程序的执行结果不被改变，happens-before关系保证正确同步的多线程程序的执行结果不被改变
 - as-if-serial语义给编写单线程程序的程序员创造了一个幻境：单线程程序是按程序的顺序来执行的。happens-before关系给编写正确同步的多线程程序的程序员创造了一个幻境：正确同步的多线程程序是按happens-before指定的顺序来执行的。
 
-### Java内存模型
+### Java内存模型（JMM）
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/89b87f6e8db04a8dbe99416f9ff05ac2~tplv-k3u1fbpfcp-zoom-1.image)
 
@@ -4310,7 +4317,33 @@ public class Singleton {
 
 ## cpu负载和cpu利用率的区别
 
+# ElasticSearch
 
+## 全文搜索
+
+全文搜索也叫全文检索，是指扫描文章中的每一个词，对每一个词进建立一个索引，指明该词在文章中出现的次数和位置，当前端用户输入的关键词发起查询请求后，搜索引擎就会根据事先建立的索引进行查找，并将查询的结果响应给用户
+
+## 倒排索引
+
+全文搜索过程根据关键词创建的索引叫倒排索引，建立成“关键词-文本内容”的关系。
+
+## 核心概念
+
+### Index
+
+索引，包含一堆有相似结构的文档数据，索引有一个名称。一个index包含很多document，一个index就代表了一类类似的或者相同的document。
+
+### Document&field
+
+文档，es中的最小数据单元，一个document可以是一条客户数据，一条商品分类数据，一条订单数据，通常用JSON数据结构表示，每个index下的type中，都可以去存储多个document。一个document里面有多个field，每个field就是一个数据字段。
+
+### elasticsearch核心概念vs数据库核心概念
+
+| elasticsearch | 数据库 |
+| :-: | :-: |
+| Document | 行 |
+| Type | 表 |
+| Index | 库 |
 
 # 算法题
 
