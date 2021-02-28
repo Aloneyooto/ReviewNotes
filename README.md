@@ -16,10 +16,10 @@
   - [为什么客户端关闭连接前要等待2MSL时间？](#为什么客户端关闭连接前要等待2msl时间)
   - [为什么挥手需要四次](#为什么挥手需要四次)
   - [挥手一定需要四次吗？](#挥手一定需要四次吗)
-  - [SYN Cookies](#syn-cookies)
   - [SYN Flood](#syn-flood)
+  - [SYN Cookies](#syn-cookies)
   - [应对DDoS攻击的方式](#应对ddos攻击的方式)
-  - [服务器主动中断](#服务器主动中断)
+  - [四次挥手服务器主动中断](#四次挥手服务器主动中断)
   - [为什么还需要快速重传机制](#为什么还需要快速重传机制)
   - [拥塞控制](#拥塞控制)
   - [tcp慢开始，为什么指数级别还叫慢开始](#tcp慢开始为什么指数级别还叫慢开始)
@@ -42,7 +42,7 @@
   - [HTTP状态码](#http状态码)
   - [HTTP与HTTPS有哪些区别](#http与https有哪些区别)
   - [https过程(有两篇文章还没看)](#https过程有两篇文章还没看)
-  - [怎么保证证书有效](#怎么保证证书有效)
+  - [怎么保证证书有效（没看懂）](#怎么保证证书有效没看懂)
         - [明文数据和数字签名组成证书，传递给客户端。](#明文数据和数字签名组成证书传递给客户端)
   - [Http格式](#http格式)
   - [HTTP中Get与Post的区别](#http中get与post的区别)
@@ -68,6 +68,7 @@
   - [面向对象的三大特性](#面向对象的三大特性)
   - [面向对象的五大基本原则](#面向对象的五大基本原则)
   - [多态的必要条件](#多态的必要条件)
+  - [多态的特点](#多态的特点)
   - [方法多态的实现](#方法多态的实现)
   - [重载与重写的区别](#重载与重写的区别)
   - [类的实例化顺序](#类的实例化顺序)
@@ -118,6 +119,8 @@
     - [ArrayList和LinkedList的区别](#arraylist和linkedlist的区别)
     - [ArrayList和Vector的区别](#arraylist和vector的区别)
     - [为什么ArrayList的elementData要加上transient修饰](#为什么arraylist的elementdata要加上transient修饰)
+    - [ArrayList源码解析](#arraylist源码解析)
+    - [ArrayList](#arraylist)
     - [HashSet的实现原理](#hashset的实现原理)
     - [Set如何检查重复](#set如何检查重复)
     - [hashmap1.7和1.8的区别](#hashmap17和18的区别)
@@ -134,10 +137,11 @@
     - [HashMap与HashTable的区别](#hashmap与hashtable的区别)
     - [TreeMap](#treemap)
     - [如何决定使用 HashMap 还是 TreeMap？](#如何决定使用-hashmap-还是-treemap)
+    - [ConcurrentHashMap与HashTable的区别](#concurrenthashmap与hashtable的区别)
     - [HashMap 和 ConcurrentHashMap 的区别](#hashmap-和-concurrenthashmap-的区别)
     - [ConcurrentHashMap 基本结构](#concurrenthashmap-基本结构)
     - [ConcurrentHashMap put方法流程](#concurrenthashmap-put方法流程)
-    - [ConcurrentHashMap 扩容流程（还没写）](#concurrenthashmap-扩容流程还没写)
+    - [ConcurrentHashMap 扩容流程](#concurrenthashmap-扩容流程)
     - [ConcurrentHashMap为什么不能存值为null的value（主要学习作者的学习方式）](#concurrenthashmap为什么不能存值为null的value主要学习作者的学习方式)
   - [阻塞队列(BlockingQueue）](#阻塞队列blockingqueue)
     - [LinkedBlockingQueue和ArrayBlockingQueue（没写完）](#linkedblockingqueue和arrayblockingqueue没写完)
@@ -157,8 +161,7 @@
     - [as-if-serial和happens-before规则的区别](#as-if-serial和happens-before规则的区别)
     - [Java内存模型（JMM）](#java内存模型jmm)
     - [volatile](#volatile)
-      - [为什么其他线程能感知到变量更新?（原理）](#为什么其他线程能感知到变量更新原理)
-      - [volatile如何实现禁止指令重排](#volatile如何实现禁止指令重排)
+    - [synchronized实现原理](#synchronized实现原理)
     - [多线程8锁](#多线程8锁)
       - [公平锁/非公平锁](#公平锁非公平锁)
       - [可重入锁](#可重入锁)
@@ -185,24 +188,30 @@
     - [CountDownLatch,CyclicBarrier,Semaphore](#countdownlatchcyclicbarriersemaphore)
     - [AQS（没写完）](#aqs没写完)
       - [获取锁](#获取锁)
+    - [原子类的实现原理](#原子类的实现原理)
     - [JDBC流程](#jdbc流程)
 - [JVM](#jvm)
-  - [四种引用(没写完)](#四种引用没写完)
+  - [四种引用](#四种引用)
     - [虚引用](#虚引用)
     - [软引用](#软引用)
     - [弱引用](#弱引用)
     - [强引用](#强引用)
   - [finalize()方法什么时候被调用？](#finalize方法什么时候被调用)
+  - [JVM如何执行方法调用](#jvm如何执行方法调用)
   - [JVM的结构](#jvm的结构)
   - [运行时数据区](#运行时数据区)
     - [虚拟机栈](#虚拟机栈)
     - [程序计数器](#程序计数器)
-  - [JVM如何执行方法调用](#jvm如何执行方法调用)
+  - [JVM如何执行方法调用](#jvm如何执行方法调用-1)
   - [TLAB分配](#tlab分配)
   - [PLAB](#plab)
   - [为什么用元空间](#为什么用元空间)
+  - [Java对象的创建](#java对象的创建)
   - [类加载过程](#类加载过程)
-  - [判断对象是否可以被回收](#判断对象是否可以被回收)
+  - [判断对象是否可以被回收的方法](#判断对象是否可以被回收的方法)
+  - [内存分配回收策略](#内存分配回收策略)
+  - [对象的内存布局](#对象的内存布局)
+  - [对象的访问定位](#对象的访问定位)
   - [可以作为GC Roots的对象](#可以作为gc-roots的对象)
   - [对象从年轻代进入老年代的时机](#对象从年轻代进入老年代的时机)
   - [触发Full GC的时机](#触发full-gc的时机)
@@ -224,6 +233,23 @@
   - [保守和非保守GC](#保守和非保守gc)
 - [Spring](#spring)
   - [过滤器和拦截器的区别（这个算是做的笔记）](#过滤器和拦截器的区别这个算是做的笔记)
+  - [IOC容器](#ioc容器)
+  - [AOP](#aop)
+  - [Spring AOP和AspectJ AOP的区别](#spring-aop和aspectj-aop的区别)
+  - [Spring中bean的作用域](#spring中bean的作用域)
+  - [Spring中的单例bean的线程安全问题](#spring中的单例bean的线程安全问题)
+  - [@Component和@Bean的区别](#component和bean的区别)
+  - [将一个类声明为Spring的bean的注解](#将一个类声明为spring的bean的注解)
+  - [Spring Bean的生命周期](#spring-bean的生命周期)
+  - [Spring MVC的工作原理](#spring-mvc的工作原理)
+  - [Spring管理事务的方式](#spring管理事务的方式)
+  - [Spring事务中的隔离级别](#spring事务中的隔离级别)
+  - [Spring事务的传播行为](#spring事务的传播行为)
+  - [@Transactional(rollbackFor = Exception.class)注解](#transactionalrollbackfor--exceptionclass注解)
+  - [BeanFactory和ApplicationContext的区别](#beanfactory和applicationcontext的区别)
+  - [getBean方法的实现原理](#getbean方法的实现原理)
+  - [xml文件的解析过程](#xml文件的解析过程)
+  - [Spring的一些基本类](#spring的一些基本类)
   - [IOC容器的组成部分](#ioc容器的组成部分)
   - [IOC容器的初始化流程(需要通俗语言)](#ioc容器的初始化流程需要通俗语言)
   - [IOC容器的刷新流程](#ioc容器的刷新流程)
@@ -248,18 +274,21 @@
   - [MySQL中in和exists的区别](#mysql中in和exists的区别)
   - [UNION和UNION ALL的区别](#union和union-all的区别)
   - [SQL执行顺序](#sql执行顺序)
+  - [InnoDB页结构](#innodb页结构)
   - [关于索引的sql语句](#关于索引的sql语句)
   - [索引分类](#索引分类)
   - [索引为什么选择B+树](#索引为什么选择b树)
   - [B-Tree的性质](#b-tree的性质)
   - [B+Tree的性质](#btree的性质)
   - [B+Tree索引和Hash索引区别](#btree索引和hash索引区别)
+  - [B树和B+树的区别](#b树和b树的区别)
   - [为什么不建议使用订单号作为主键?](#为什么不建议使用订单号作为主键)
   - [一棵B+树可以存放多少行数据](#一棵b树可以存放多少行数据)
   - [聚集索引与非聚集索引的区别](#聚集索引与非聚集索引的区别)
-  - [MyISAM主键索引和辅助索引的结构](#myisam主键索引和辅助索引的结构)
+  - [MyISAM和InnoDB实现BTree索引方式的区别](#myisam和innodb实现btree索引方式的区别)
   - [InnoDB如何实现聚集（聚簇）索引](#innodb如何实现聚集聚簇索引)
   - [回表查询](#回表查询)
+  - [最左前缀原则](#最左前缀原则)
   - [full-text全文索引](#full-text全文索引)
   - [与索引有关的SQL语句](#与索引有关的sql语句)
   - [哪些情况需要创建索引](#哪些情况需要创建索引)
@@ -342,6 +371,8 @@
 - [算法题](#算法题)
   - [只出现一次的数字(136)](#只出现一次的数字136)
   - [阶乘后的零(172)](#阶乘后的零172)
+  - [最短无序连续子数组(T581)](#最短无序连续子数组t581)
+  - [T538](#t538)
 - [还没看完的文章](#还没看完的文章)
   - [MySQL](#mysql-1)
 
@@ -367,7 +398,7 @@
 
 1.解析URL，确定Web服务器和文件名
 
-2.查询服务器域名对应的IP地址：首先查找浏览器上缓存，没有再查找.host文件的缓存，如果没有会发送一个DNS请求给本地DNS域名服务器，本地域名服务器收到请求后如果缓存中的表格能找到则直接返回IP地址，如果没有，则去问根域名服务器。根DNS收到本地DNS的请求后，发现后置是.com。根域名服务器返回给本地域名服务器.com顶级域名服务器的地址，本地DNS再去问顶级域名服务器，顶级域名服务器地址告诉本地DNS权威DNS服务器地址，本地DNS再去问就拿到IP地址了。
+2.查询服务器域名对应的IP地址：首先查找浏览器上缓存，没有再查找.host文件的缓存，如果没有会发送一个DNS请求给本地DNS域名服务器，本地域名服务器收到请求后如果缓存中的表格能找到则直接返回IP地址，如果没有，则去问根域名服务器。根DNS收到本地DNS的请求后，发现后置是.com。根域名服务器返回给本地域名服务器.com顶级域名服务器的地址，本地DNS再去问顶级域名服务器，顶级域名服务器告诉本地DNS权威DNS服务器地址，本地DNS再去问就拿到IP地址了。
 
 3.协议栈进行TCP三次握手。TCP模块在执行各阶段操作时，都需要委托IP模块将数据封装成网络包发送给通信对象，接下来网络包在IP头部的前面加上MAC头部（网卡驱动从IP模块获取到包后，将其复制到网卡内的缓存区中，并加上报头和起始帧分界符，在末尾加上用于检测错误的帧校验序列），网卡将数字信号转换为电信号进行传输，接下来包通过交换机原样转发到目的地，之后到达路由器，并在此被转发到下一个路由器或目标设备。
 
@@ -375,7 +406,7 @@
 
 ## 为什么DNS用udp
 
-https://www.zhihu.com/question/310145373
+[为什么DNS用UDP](https://www.zhihu.com/question/310145373)
 
 采用TCP传输，则域名解析时间为：
 
@@ -435,7 +466,7 @@ URG(urgent)：紧急标志，用于保证TCP连接不被中断，并且督促中
 
 ## TCP粘包（没写完）
 
-TCP 是一个面向字节流的协议，它是性质是流式的，所以它并没有分段。就像水流一样，你没法知道什么时候开始，什么时候结束。
+TCP 是一个面向字节流的协议，它的性质是流式的，所以它并没有分段。就像水流一样，你没法知道什么时候开始，什么时候结束。
 
 ![](https://user-gold-cdn.xitu.io/2018/8/6/1650c8b818748287?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
@@ -479,7 +510,7 @@ TCP 是一个面向字节流的协议，它是性质是流式的，所以它并�
 
 而客户端则会有两种情况:
 
-- 如果客户端没发送数据包,一直处于`ESTABLISHED`状态，然后经过2小时11分15秒才可以发现一个死亡连接，于是客户端连接就会断开连接。
+- 如果客户端没发送数据包,一直处于`ESTABLISHED`状态，然后经过2小时11分15秒才可以发现一个死亡连接，于是客户端连接就会断开。
 - 如果客户端发送了数据包，一直没有收到服务端对该数据包的确认报文，则会一直重传该数据包，直到重传次数超过`tcp_retries2`值（默认值15次）后，客户端就会断开TCP连接
 
 ## 三次握手初始序列号
@@ -492,7 +523,7 @@ TCP 是一个面向字节流的协议，它是性质是流式的，所以它并�
 
 1.避免历史连接：
 
-客户端连续发送多次SYN建立连接的报文，在网络拥堵等情况下：一个旧SYN报文比最新的SYN报文早到达了客户端,此时服务端就会回一个`SYN+ACK`报文给客户端，客户端收到后可以根据自身的上下文，判断这是否是一个历史连接（序列号过期或超时）。如果是历史连接，则第三次握手发送的报文是RST报文，以此中止历史连接，如果不是历史连接，则第三次发送的报文是`ACK`报文，通信双方就会成功建立连接。如果是两次握手连接，就不能判断当前连接是否是历史连接。
+客户端连续发送多次SYN建立连接的报文，在网络拥堵等情况下：一个旧SYN报文比最新的SYN报文早到达了客户端,此时服务端就会回一个`SYN+ACK`报文给客户端，客户端收到后可以根据自身的上下文，判断这是否是一个历史连接（序列号过期或超时）。如果是历史连接，则第三次握手发送的报文是RS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       T报文，以此中止历史连接，如果不是历史连接，则第三次发送的报文是`ACK`报文，通信双方就会成功建立连接。如果是两次握手连接，就不能判断当前连接是否是历史连接。
 
 2.同步双方初始序列号：
 
@@ -542,23 +573,13 @@ TCP 是一个面向字节流的协议，它是性质是流式的，所以它并�
 那么假设client发送FIN给server的时候server也没数据给client,那么server就可以将ACK和它的FIN一起发给client,然后等待client的ACK，这样不就三次挥手了?
 
 
-## SYN Cookies
-
-是用来防范SYN Flood攻击的一种手段。
-
-SYN Flood攻击是指攻击者在短时间内发送大量的TCP SYN包给受害者。受害者(服务器)为每个TCP SYN包分配一个特定的数据区，只要这些SYN包具有不同的源地址(攻击者很容易伪造)。这将给TCP服务器造成很大的系统负担，最终导致系统不能正常工作。
-
-SYN Cookie的原理是在TCP服务器接收到TCP SYN包并返回TCP SYN+ACK包时，不分配一个专门的数据区，而是根据这个SYN包计算出一个cookie值。这个cookie作为将要返回的SYN ACK包的初始序列号。当客户端返回一个ACK包时，根据包头信息计算cookie，与返回的确认序列号（初始序列号+1）进行对比，如果相同，则是一个正常连接，然后分配资源，建立连接。
-
-cookie的计算:服务器收到一个SYN包,计算一个消息摘要mac.
-
 ## SYN Flood
 
 SYN Flood（半开放攻击）是一种拒绝服务（DDoS）攻击，其目的是通过消耗所有可用的服务器资源使服务器不可用于合法流量。通过重复发送初始连接请求（SYN）数据包，攻击者能够压倒目标服务器机器上的所有可用端口，导致目标设备根本不响应合法流量。
 
 **工作原理**:
 
-攻击者向目标服务器发送大量SYN数据包，通常会使用欺骗性的IP地址.然后,服务器响应每个连接请求，并留下开放端口准备好接收响应。
+攻击者使用欺骗性的IP地址向目标服务器发送大量SYN数据包.然后,服务器响应每个连接请求，并留下开放端口准备好接收响应。
 
 当服务器等待从未到达的最终ACK数据包时，攻击者继续发送更多的SYN数据包。每个新的SYN数据包的到达导致服务器暂时维持新的开放端口连接一段时间，一旦所有可用端口被使用，服务器就无法正常工作。
 
@@ -569,6 +590,16 @@ SYN Flood（半开放攻击）是一种拒绝服务（DDoS）攻击，其目的�
 - 在服务器前端的四层设备上启用类似syn proxy的功能，等到确认tcp正常建链后再转给服务器处理
 
 [如何改进TCP，甚至重新设计TCP/IP，才可以完全杜绝SYN Flood等安全问题？ - 小麦1212的回答 - 知乎](https://www.zhihu.com/question/40909733/answer/137556963)
+
+## SYN Cookies
+
+是用来防范SYN Flood攻击的一种手段。
+
+SYN Flood攻击是指攻击者在短时间内发送大量的TCP SYN包给受害者。受害者(服务器)为每个TCP SYN包分配一个特定的数据区，只要这些SYN包具有不同的源地址(攻击者很容易伪造)。这将给TCP服务器造成很大的系统负担，最终导致系统不能正常工作。
+
+SYN Cookie的原理是在TCP服务器接收到TCP SYN包并返回TCP SYN+ACK包时，不分配一个专门的数据区，而是根据这个SYN包计算出一个cookie值。这个cookie作为将要返回的SYN ACK包的初始序列号。当客户端返回一个ACK包时，根据包头信息计算cookie，与返回的确认序列号（初始序列号+1）进行对比，如果相同，则是一个正常连接，然后分配资源，建立连接。
+
+cookie的计算:服务器收到一个SYN包,计算一个消息摘要mac.
 
 ## 应对DDoS攻击的方式
 
@@ -588,7 +619,7 @@ DDoS清洗会对用户请求数据进行实时监控，及时发现DOS攻击等�
 
 CDN服务将网站访问流量分配到了各个节点中，这样一方面隐藏网站的真实 IP，另一方面即使遭遇DDoS攻击，也可以将流量分散到各个节点中，防止源站崩溃。
 
-## 服务器主动中断
+## 四次挥手服务器主动中断
 
 当服务器进程被终止时，会关闭其打开的所有文件描述符，此时就会向客户端发送一个`FIN`的报文，客户端则响应一个`ACK`报文，但是这样只完成了四次挥手的前两次挥手，也就是说这样只实现了半关闭，客户端仍然可以向服务器写入数据。
 
@@ -616,7 +647,13 @@ TCP的拥塞控制采用四种算法：慢开始，拥塞避免，拥塞发生�
 
 快速恢复算法中拥塞窗口为慢开始阈值+3，3表示确认有3个数据报被收到。重传丢失的数据包，如果再收到重复的确认，那么拥塞窗口+1,如果收到新数据的确认包，设置拥塞窗口为慢开始阈值，进入拥塞避免算法。
 
-![](https://user-gold-cdn.xitu.io/2020/6/23/172debad3640ef62?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+超时重传:
+
+![](https://user-gold-cdn.xitu.io/2020/6/23/172debad3383e363?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+快恢复:
+
+![](https://user-gold-cdn.xitu.io/2020/6/23/172debad33b9be05?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 目的是为了防止过多的数据注入到网络中。
 
@@ -686,7 +723,7 @@ TCP保证可靠性的方式有：
 ## TCP Socket编程
 
 - 服务端和客户端初始化 `socket`，得到文件描述符；
-- 服务端调用 `bind`，将绑定在 IP 地址和端口;
+- 服务端调用 `bind`，绑定IP地址和端口;
 - 服务端调用 `listen`，进行监听；
 - 服务端调用 `accept`，等待客户端连接；
 - 客户端调用 `connect`，向服务器端的地址和端口发起连接请求；
@@ -704,11 +741,13 @@ TCP保证可靠性的方式有：
 
 ![](https://yueqilai-images.oss-cn-beijing.aliyuncs.com/image-20200813111620210.png)
 
-我们从下到上分析一下： 　　
-1.在链路层，由以太网的物理特性决定了数据帧的长度为(46＋18)－(1500＋18)，其中的18是数据帧的头和尾，也就是说数据帧的内容最大为1500(不包括帧头和帧尾)，即MTU(Maximum Transmission Unit)为1500； 　
-2.在网络层，因为IP包的首部要占用20字节，所以这的MTU为1500－20＝1480；　
-3.在传输层，对于UDP包的首部要占用8字节，所以这的MTU为1480－8＝1472； 　　
+我们从下到上分析一下：
+
+1. 在链路层，由以太网的物理特性决定了数据帧的长度为(46＋18)－(1500＋18)，其中的18是数据帧的头和尾，也就是说数据帧的内容最大为1500(不包括帧头和帧尾)，即MTU(Maximum Transmission Unit)为1500； 　
+2. 在网络层，因为IP包的首部要占用20字节，所以这的MTU为1500－20＝1480；　
+3. 在传输层，对于UDP包的首部要占用8字节，所以这的MTU为1480－8＝1472； 　　
 所以，在应用层，你的Data最大长度为1472。当我们的UDP包中的数据多于MTU(1472)时，发送方的IP层需要分片fragmentation进行传输，而在接收方IP层则需要进行数据报重组，由于UDP是不可靠的传输协议，如果分片丢失导致重组失败，将导致UDP数据包被丢弃。 　　
+
 从上面的分析来看，在普通的局域网环境下，UDP的数据最大为1472字节最好(避免分片重组)。
 
 UDP 包的大小就应该是 1500 - IP头(20) - UDP头(8) = 1472(Bytes)
@@ -817,7 +856,7 @@ URI是统一资源标志符，可以唯一标识一个资源。URL是统一资�
 8. 客户端使用**随机Key**对称解密密文，得到HTTP数据明文；
 9. 后续HTTPS请求使用之前交换好的**随机Key**进行对称加解密。
 
-## 怎么保证证书有效
+## 怎么保证证书有效（没看懂）
 
 私钥除了解密外的真正用途其实还有一个，就是**数字签名**，其实就是一种防伪技术，只要有人篡改了证书，那么数字签名必然校验失败。具体过程如下
 
@@ -1069,15 +1108,15 @@ Math.round(11.5)的返回值是 12，Math.round(-11.5)的返回值是-11。四�
 
 ## final finally finalize区别
 
-- final可以修饰类、变量、方法，修饰类表示该类不能被继承、修饰方法表示该方法不能被重写、修饰变量表 示该变量是一个常量不能被重新赋值。
-- finally一般作用在try-catch代码块中，在处理异常的时候，通常我们将一定要执行的代码方法finally代码块中，表示不管是否出现异常，该代码块都会执行，一般用来存放一些关闭资源的代码。
-- finalize是一个方法，属于Object类的一个方法，而Object类是所有类的父类，该方法一般由垃圾回收器来调用，当我们调用`System.gc()`方法的时候由垃圾回收器调用`finalize()`，回收垃圾，一个对象是否可回收的 最后判断。
+- final可以修饰类、变量、方法，修饰类表示该类不能被继承、修饰方法表示该方法不能被重写、修饰变量表示该变量是一个常量不能被重新赋值。
+- finally一般作用在try-catch代码块中，在处理异常的时候，通常我们将一定要执行的代码方法放在finally代码块中，表示不管是否出现异常，该代码块都会执行，一般用来存放一些关闭资源的代码。
+- finalize是一个方法，属于Object类的一个方法，而Object类是所有类的父类，该方法一般由垃圾回收器来调用，当我们调用`System.gc()`方法的时候由垃圾回收器调用`finalize()`回收垃圾。
 
 ## 面向对象的三大特性
 
-- 封装：把一个对象的属性私有化，同时提供一些可以被外界访问的属性的方法
+- 封装：封装是指把一个对象的状态信息（也就是属性）隐藏在对象内部，不允许外部对象直接访问对象的内部信息。但是可以提供一些可以被外界访问的方法来操作属性。
 - 继承：使用已存在的类的定义作为基础建立新类
-- 多态：父类或接口定义的引用变量可以指向子类或具体实现类的实例对象。
+- 多态：一个对象具有多种的状态，父类或接口定义的引用变量可以指向子类或具体实现类的实例对象。
 
 ## 面向对象的五大基本原则
 
@@ -1092,6 +1131,13 @@ Math.round(11.5)的返回值是 12，Math.round(-11.5)的返回值是-11。四�
 - 有类继承或者接口实现
 - 子类要重写父类的方法
 - 父类的引用指向子类的对象
+
+## 多态的特点
+
+- 对象类型和引用类型之间具有继承（类）/实现（接口）的关系；
+- 引用类型变量发出的方法调用的到底是哪个类中的方法，必须在程序运行期间才能确定；
+- 多态不能调用“只在子类存在但在父类不存在”的方法；
+- 如果子类重写了父类的方法，真正执行的是子类覆盖的方法，如果子类没有覆盖父类的方法，执行的是父类的方法。
 
 ## 方法多态的实现
 
@@ -1113,7 +1159,7 @@ Math.round(11.5)的返回值是 12，Math.round(-11.5)的返回值是-11。四�
 
 ## 类的实例化顺序
 
-父类静态代码块/静态域->子类静态代码块/静态域 -> 父类非静态代码块 -> 父类构造器 -> 子类非静态代码块 -> 子类构造器
+父类静态代码块/静态域 -> 子类静态代码块/静态域 -> 父类非静态代码块 -> 父类构造器 -> 子类非静态代码块 -> 子类构造器
 
 ## Java创建对象的5种方式
 
@@ -1518,13 +1564,15 @@ BIO：Block IO 同步阻塞式 IO，就是我们平常使用的传统 IO，它�
 
 ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9934ef7c03d94cc9b07bcc5aac48b4a1~tplv-k3u1fbpfcp-watermark.image)
 
-NIO：Non IO 同步非阻塞 IO，是传统 IO 的升级，客户端和服务器端通过 Channel（通道）通讯，实现了多路复用。
+NIO：Non-blocking IO 同步非阻塞 IO，是传统 IO 的升级，客户端和服务器端通过 Channel（通道）通讯，实现了多路复用。
 
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ed3e5528b1fa48778f2c2dcce87604a7~tplv-k3u1fbpfcp-watermark.image)
 
 AIO：Asynchronous IO 是 NIO 的升级，也叫 NIO2，实现了异步非堵塞 IO ，异步 IO 的操作基于事件和回调机制。
 
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cac7fc5e378746ef9ab8ce981b371d28~tplv-k3u1fbpfcp-watermark.image)
+
+BIO是同步阻塞I/O模式，数据的读取写入必须阻塞在一个线程内等待其完成，不能应对并发数较大的场景.NIO是同步非阻塞模式，它提供了Channel,Selector，Buffer等抽象。它是支持面向缓冲的，基于通道的IO操作方法。支持阻塞和非阻塞两种模式。AIO是异步非阻塞的IO模型。异步IO是基于事件和回调机制实现的，也就是应用操作之后会直接返回，不会堵塞在那里，当后台处理完成，操作系统会通知相应线程进行后续操作。
 
 ## Java8新特性
 
@@ -1894,11 +1942,11 @@ public class StreamTest {
 
 ### fail-fast机制
 
-多个线程对同一集合进行结构上的改变的操作时抛出ConcurrentModificationException 异常。
+多个线程对同一集合进行结构上的改变的操作时抛出ConcurrentModificationException异常。
 
 **原因：**
 
-  迭代器在遍历时直接访问集合中的内容，并且在遍历过程中使用一个 modCount 变量。集合在被遍历期间如果内容发生变化，就会改变modCount的值。每当迭代器使用hashNext()/next()遍历下一个元素之前，都会检测modCount变量是否为expectedmodCount值，是的话就返回遍历；否则抛出异常，终止遍历。
+  迭代器在遍历时直接访问集合中的内容，并且在遍历过程中使用一个 modCount 变量。集合在被遍历期间如果内容发生变化，就会改变modCount的值。每当迭代器使用hasNext()/next()遍历下一个元素之前，都会检测modCount变量是否为expectedmodCount值，是的话就返回遍历；否则抛出异常，终止遍历。
 
 **解决方法：**
 
@@ -1907,9 +1955,9 @@ public class StreamTest {
 
 ### comparable 和 comparator 的区别？
 
-comparable接口实际上是出自`java.lang`包，可以看做java语言的基础接口,它有一个`compareTo(Object obj)`方法用来排序，comparator接口实际上是出自`java.util`包，表示他是一个工具类，它有一个`compare(Object obj1, Object obj2)`方法用来排序
+comparable接口实际上是出自`java.lang`包，可以看做java语言的基础接口,它有一个`compareTo(Object obj)`方法用来排序，comparator接口实际上是出自`java.util`包，表示它是一个工具类，它有一个`compare(Object obj1, Object obj2)`方法用来排序
 
-comparable表示对可排序的集合进行自然排序，comparator表示对可排序的集合进行自定义排序。在排序过程中，首先会去检查Comparator是否存在，如果不存在则会使用默认的natural ordering。还有一个区别就是Comparator允许对null参数的比较，而Comparable是不允许的，否则会爬出NullPointerException。
+comparable表示对可排序的集合进行自然排序，comparator表示对可排序的集合进行自定义排序。在排序过程中，首先会去检查Comparator是否存在，如果不存在则会使用默认的natural ordering。还有一个区别就是Comparator允许对null参数的比较，而Comparable是不允许的，否则会抛出NullPointerException。
 
 ### SynchronizedList和Vector的区别
 
@@ -1961,6 +2009,22 @@ private final E[] a;
 ### 为什么ArrayList的elementData要加上transient修饰
 
 transient是说不希望elementData数组被序列化，ArrayList中重写了writeObject实现：每次序列化时，先调用`defaultWriteObject()`方法序列化ArrayList中的非transient元素，然后遍历elementData，只序列化已存入的元素，这样既加快了序列化的速度，又减小了序列化之后文件的大小。
+
+### ArrayList源码解析
+
+ArrayList 实现了 List 接口，RandomAccess 接口，可以插入空数据以及支持随机访问。它相当于一个动态数组，初始化时是一个空数组，在第一次 add 时设置初始容量为 10，每次扩容都增加到原来的 1.5 倍。简单的 add 就是在 elementData 数组末尾添加一个数据，size++；指定 index 添加数据，就需要拷贝 index 后面的数据后移一位。在删除的时，如果是删除 null，就遍历数组找到第一个 null 值删除，否则就遍历比较 equals 删除指定 index 的数据，其实也就是拷贝 index 后面的数据前移一位。删除数据时，最好使用迭代器来做，避免 ConcurrentModificationException，它并不只是在并发时才会抛出的，单线程也可能抛出，其实内部是比较 expectedModCount 和 modCount 是否相等来判断的。ArrayList 的性能损耗就来源于数组拷贝，在适当情况下，可以初始化时指定容量大小，避免不必要的扩容操作。其实呢，ArrayList 还有一个缺点，就是不能自动缩容，但是我们可以手动调用 trimToSize 来缩容至当前 size 大小。
+
+还有一点是 elementData 是用 transient 修饰的，也就是拒绝数据被自动序列化，因为 ArrayList 并不是所有位置都有数据，所以没必要全部序列化，应该只序列化有数据的部分，所以它重写了 writeObject/readObjet 方法。
+
+### ArrayList
+
+size 用于记录 ArrayList 实例中 elementData 数组中元素的个数，capacity 是elementData 数组的长度。
+
+Java8 中使用了延迟初始化，使用无参构造方法，并不会马上创建长度为 10 的数组，而是在调用 add 方法添加第一个元素的时候才对 elementData 数组进行初始化。
+
+`elementData = Arrays.copyOf(elementData, newCapacity);` 对 elementData 数组进行扩容。
+
+EMPTY_ELEMENTDATA 是使用指定初始容量的构造方法 ArrayList(int initialCapacity)（初始容量大小为0） 和 指定初始集合的构造方法 ArrayList(Collection<? extends E> c)（初始集合大小为0） 时使用。DEFAULTCAPACITY_EMPTY_ELEMENTDATA 是使用无参构造方法时使用的。
 
 ### HashSet的实现原理
 
@@ -2071,6 +2135,13 @@ https://blog.csdn.net/littlehaes/article/details/105241194
 
 对于在Map中插入、删除和定位元素这类操作，HashMap是最好的选择。然而，假如你需要对一个有序的key集合进行遍历，TreeMap是更好的选择。
 
+### ConcurrentHashMap与HashTable的区别
+
+ConcurrentHashMap 和 Hashtable 的区别主要体现在实现线程安全的方式上不同。
+
+- 底层数据结构： JDK1.7 的 ConcurrentHashMap 底层采用 分段的数组+链表 实现，JDK1.8 采用的数据结构跟 HashMap1.8 的结构一样，数组+链表/红黑二叉树。Hashtable 和 JDK1.8 之前的 HashMap 的底层数据结构类似都是采用 数组+链表 的形式，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的；
+- 实现线程安全的方式（重要）： ① 在 JDK1.7 的时候，ConcurrentHashMap（分段锁） 对整个桶数组进行了分割分段(Segment)，每一把锁只锁容器其中一部分数据，多线程访问容器里不同数据段的数据，就不会存在锁竞争，提高并发访问率。 到了 JDK1.8 的时候已经摒弃了 Segment 的概念，而是直接用 Node 数组+链表+红黑树的数据结构来实现，并发控制使用 synchronized 和 CAS 来操作。（JDK1.6 以后 对 synchronized 锁做了很多优化） 整个看起来就像是优化过且线程安全的 HashMap，虽然在 JDK1.8 中还能看到 Segment 的数据结构，但是已经简化了属性，只是为了兼容旧版本；② Hashtable(同一把锁) :使用 synchronized 来保证线程安全，效率非常低下。当一个线程访问同步方法时，其他线程也访问同步方法，可能会进入阻塞或轮询状态，如使用 put 添加元素，另一个线程不能使用 put 添加元素，也不能使用 get，竞争会越来越激烈效率越低。
+
 ### HashMap 和 ConcurrentHashMap 的区别
 
 1. ConcurrentHashMap对整个桶数组进行了分割分段(Segment)，然后在每一个分段上都用lock锁进行保护，相对于HashTable的synchronized锁的粒度更精细了一些，并发性能更好，而HashMap没有锁机制，不是线程安全的。（JDK1.8之后ConcurrentHashMap启用了一种全新的方式实现,利用CAS算法。）
@@ -2100,6 +2171,18 @@ ConcurrentHashMap采用Segment + HashEntry的方式进行实现，结构如下�
 
 ### ConcurrentHashMap put方法流程
 
+**JDK1.7:**
+
+Segment的默认个数是16个.
+
+步骤:
+1. 计算要put的key的位置,获取指定位置的Segment.
+2. 如果指定位置的Segment为空,则初始化这个Segment.初始化的流程是:首先检查计算得到的位置的Segment是否为null,为null则继续初始化，使用Segment[0]的容量和负载因子创建一个HashEntry数组,接下来再次检查计算得到的指定位置的Segment是否为null.然后使用创建的HashEntry数组初始化这个Segment.最后自旋计算得到的指定位置的Segment是否为null,使用CAS在这个位置赋值为Segment.
+3. tryLock()获取锁，获取不到使用scanAndLockForPut方法继续自旋获取
+4. 计算put的数据要放入的index位置,然后获取这个位置上的HashEntry
+5. 遍历put新元素，如果这个位置上的HashEntry不存在，判断当前容量是否大于扩容阈值且小于最大容量，是则扩容，否则头插法插入。如果这个位置上的HashEntry存在，则判断链表当前元素key和hash值是否和要put的key和hash值一致.一致则替换值，不一致则获取链表下一个节点，直到发现相同进行值替换，或者链表表里没有相同的，判断当前容量是否大于扩容阈值且小于最大容量，是则扩容，否则头插法插入。
+6. 如果要插入的位置之前已经存在，替换后返回旧值，否则返回null.
+
 **JDK1.8：**
 
 - 根据 key 计算出 hashcode 。
@@ -2109,7 +2192,13 @@ ConcurrentHashMap采用Segment + HashEntry的方式进行实现，结构如下�
 - 如果都不满足，则利用 synchronized 锁写入数据。
 - 如果数量大于 `TREEIFY_THRESHOLD` 则要转换为红黑树。
 
-### ConcurrentHashMap 扩容流程（还没写）
+### ConcurrentHashMap 扩容流程
+
+**jdk1.7**:
+
+ConcurrentHashMap 的扩容只会扩容到原来的两倍。老数组里的数据移动到新的数组时，位置要么不变，要么变为 index+ oldSize，参数里的 node 会在扩容之后使用链表头插法插入到指定位置。
+
+**jdk1.8**:
 
 https://www.jianshu.com/p/487d00afe6ca
 
@@ -2266,25 +2355,21 @@ JMM定义了线程和主内存之间的抽象关系：线程之间的共享变�
 - 不保证原子性
 - 禁止指令重排
 
-#### 为什么其他线程能感知到变量更新?（原理）
+volatile 保证了共享变量的可见性和有序性。
 
-缓存一致性:
+可见性是指一个线程修改了共享变量，另一个线程可以立即感知到。有序性是指禁止编译器或处理器重排序。
 
-当多个CPU持有的缓存都来自同一个主内存的拷贝，当有其他CPU偷偷改了这个主内存数据后，其他CPU并不知道，那拷贝的内存将会和主内存不一致，这就是缓存不一致。
+volatile 是如何保证可见性的呢？
 
-通过MESI协议来保证缓存一致性:
+其实是 JVM 在 volatile 写的时候加一个 lock 前缀，它包含两层含义，第一个是将当前处理器缓存行的数据写回到系统内存，第二个就是这个写内存的操作会使其他 CPU 里缓存了该内存地址的数据无效。但是，就算回写到内存，如果其他处理器缓存的值还是旧的还是有问题的，为了保证各个处理器的缓存是一致的，就会实现缓存一致性协议，即每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，如果内存地址被修改就会把当前处理器的缓存行设置为无效状态，当处理器对这个数据进行操作的时候，就会重新拉一份新的值。
 
-当CPU写数据时，如果发现操作的变量是共享变量，即在其它CPU中也存在该变量的副本，系统会发出信号通知其它CPU将该内存变量的缓存行设置为无效。当其它CPU读取这个变量的时，发现自己缓存该变量的缓存行是无效的，那么它就会从内存中重新读取。
+volatile 是如何保证有序性的呢？
 
-使用总线嗅探技术使其他CPU知道要将缓存更新为失效：
+其实是通过内存屏障来实现的，具体有以下三条：
 
-每个CPU不断嗅探总线上传播的数据来检查自己缓存值是否过期了，如果处理器发现自己的缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置为无效状态，当处理器对这个数据进行修改操作的时候，会重新从内存中把数据读取到处理器缓存中。
-
-缺点在于需要不断对主线进行内存嗅探，大量的交互会导致总线带宽达到峰值。
-
-再概述一遍：
-
-当对volatile变量进行写操作的时候，JVM会向处理器发送一条lock前缀的指令，将这个缓存中的变量回写到系统主存中。此时为了保证各个处理器的缓存是一致的，每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器要对这个数据进行修改操作的时候，会强制重新从系统内存里把数据读到处理器缓存里。
+在 volatile 写操作的前面插入一个 StoreStore 屏障，保证 volatile 写操作不会和之前的写操作重排序。
+在 volatile 写操作的后面插入一个 StoreLoad 屏障，保证 volatile 写操作不会和之后的读操作重排序。
+在 volatile 读操作的后面插入一个 LoadLoad 屏障 + LoadStore 屏障，保证 volatile 读操作不会和之后的读操作、写操作重排序。
 
 **指令重排**:
 
@@ -2300,27 +2385,23 @@ JMM定义了线程和主内存之间的抽象关系：线程之间的共享变�
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/60ea5804fd9e43aa8a1205e1988645b4~tplv-k3u1fbpfcp-zoom-1.image)
 
-#### volatile如何实现禁止指令重排
+### synchronized实现原理
 
-原理：在volatile生成的指令序列前后插入内存屏障（Memory Barries）来禁止处理器重排序。
+先说一下 synchronized 的基本使用，对于普通方法，锁是当前实例对象，对于静态方法，锁是当前类的 Class 对象，对于同步代码块，锁是括号里配置的对象。
 
-有四种内存屏障:
+对于锁方法，就是在编译方法的时候 ACCESS_FLAGS 加一个 ACC_SYNCHRONIZED 标识位，Access_Flags 就是访问标识位，除此之外还有常见的 public、private、static 等等。
 
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c9eb55cfc2514d5b967005c9591ea433~tplv-k3u1fbpfcp-zoom-1.image)
+对于锁代码块，其实就在代码块的前后增加一对 monitorenter 和 monitorexit 指令。
 
-volatile写的场景如何插入内存屏障:
+在 Java 1.6 时，synchronized 做了大量优化，引入了轻量级锁和偏向锁。此时锁有四种状态，分别是无锁、偏向锁、轻量级锁和重量级锁。这几个状态会随着竞争情况逐渐升级，锁可以升级但不能降级，不过锁降级确实会发生，只不过概率很小，当 JVM 进入安全点的时候，会检查是否有闲置的 Monitor，然后试图进行降级。
 
-- 在每个volatile写操作的前面插入一个StoreStore屏障（写-写 屏障）。
-- 在每个volatile写操作的后面插入一个StoreLoad屏障（写-读 屏障）。
+在讲这四种状态之前，首先要先讲一下对象头。
 
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2d4909f2b35745839b92ddee883774a3~tplv-k3u1fbpfcp-zoom-1.image)
+synchronized 用的锁的信息是存放在 Java 对象头的 Mard Word 标记字段中的，它里面保存了对象的 HashCode、分代年龄和锁标志位。锁标志位用两个 bit 表示，00 表示轻量级锁，10 表示重量级锁，01 表示偏向锁和无锁，它们两个再用一个 bit 表示是否是偏向锁。
 
-volatile读场景如何插入内存屏障：
+其实呢，在大多数情况下，锁不仅不存在多线程竞争，而且总是由同一个线程多次获得，为了让线程获得锁的代价更低而引入了偏向锁。当一个线程访问同步块并获取锁时，会在对象头里记录锁偏向的线程 ID，下次该线程再次进入只需要判断线程 ID 就可以了。
 
-- 在每个volatile读操作的后面插入一个LoadLoad屏障（读-读 屏障）。
-- 在每个volatile读操作的后面插入一个LoadStore屏障（读-写 屏障）。
-
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/abe11d4910354a019053d9cab3440818~tplv-k3u1fbpfcp-zoom-1.image)
+接着讲轻量级锁。当有一个线程竞争获取锁时，由于该锁已经是偏向锁，当发现对象头 Mark Word 中的线程 ID 不是自己的线程 ID，就会进行 CAS 操作获取该锁。如果获取到了就替换线程 ID，继续保持偏向锁状态，如果获取不到就自旋一段时间再次获取，也就是自旋锁，如果在指定次数没有成功，就会膨胀为重量级锁，当前线程阻塞掉。默认次数好像是 15，当然，后面出了自适应自旋锁，会根据上次自旋的次数来设置。因为长时间的自旋会消耗 CPU，所以会有限制次数这一说。轻量级锁适用于线程交替执行同步块的场景，绝大部分的锁在整个同步周期都不存在长时间的竞争。
 
 ### 多线程8锁
 
@@ -2568,7 +2649,21 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
 
 #### 获取锁
 
+### 原子类的实现原理
 
+原子类即是指 Java 中的 Atomic 类，比如 AtomicInteger、AtomicLong、AtomicStampedReference、AtomicReference 等。都是通过 CAS 来做的。
+
+CAS 即比较并替换，它是通过硬件来保证操作的原子性。
+
+在 Java 中，UnSafe 类提供了对 CAS 的简单封装，Atomic 类内部也都是使用 UnSafe 类来做的，UnSafe 类是可以直接操作内存的，一般在应用程序中是不能使用的，它是由启动类加载器加载的。UnSafe 类提供了一系列的 compareAndSwapXxx 方法，它们都是 native 方法。除此之外，UnSafe 还有一对 park/unpark 阻塞唤醒线程的方法，LockSupport 便是对它的包装。
+
+CAS 存在的问题也比较多，但是现在基本上都已经有解决方案。
+
+首先是 ABA 问题，解决思路就是加一个版本号，可以使用 AtomicStampedReference 来解决。
+
+其次是循环时间长开销大，这个问题的解决可以参考 Java8 新增的 LongAdder 类。在高并发场景下，大量线程会同时去竞争更新同一个原子变量，但是由于同时只有一个线程的 CAS 操作会成功，这就造成了大量线程竞争失败后自旋继续尝试，严重损耗 CPU，这时候 LongAdder 的思路就是把一个变量分解为多个变量，让多个线程去竞争多个资源，也就是把 long 值分为一个 base 加上一个 Cell 数组，最后取值时就是 base 加上多个 Cell 的值。
+
+最后是 CAS 的一个限制，就是只能保证一个共享变量的原子操作。解决办法就是可以把多个共享变量合成一个共享变量，比如 ThreadPoolExecutor 的 ctl 字段包含了线程池状态和 Worker 线程数量。或者可以使用 AtomicReferecne 类来保证引用对象之间的原子性，也就是把多个变量放在一个对象里进行 CAS 操作。
 
 ### JDBC流程
 
@@ -2586,7 +2681,9 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
 
 # JVM
 
-## 四种引用(没写完)
+## 四种引用
+
+Java 中的引用可以分为四类，强引用、软引用、弱引用和虚引用。强引用在程序中普遍存在，类似 new 的这种操作，只要有强引用存在，即使 OOM JVM 也不会回收该对象。软引用是在内存不够用时，才会去回收，JDK 提供了 SoftReference 类来实现软引用。弱引用是在 GC 时不管内存够不够用都会去回收的，可以使用 WeakReference 类来实现弱引用。虚引用对对象的生命周期没有影响，只是为了能在对象回收时收到一个系统通知，可以使用 PhantomReference 类来实现虚引用。
 
 ### 虚引用
 
@@ -2620,11 +2717,32 @@ state 由于是多线程共享变量，所以必须定义成 volatile，以保�
 
 垃圾回收器准备释放对象占用的内存时，将首先调用该对象的finalize()方法，并且下一次垃圾回收动作发生时，才真正回收对象占用的内存空间。
 
+## JVM如何执行方法调用
+
+方法重载在编译阶段就能确定下来，而方法重写则需要运行时才能确定。
+
+Java 编译器会根据所传入的参数的声明类型来选取重载方法，而 JVM 识别方法依赖于方法描述符，它是由方法的参数类型以及返回类型所构成。JVM 内置了五个与方法调用相关的指令，分别是 invokestatic 调用静态方法、invokespecial 调用私有实例方法、invokevirtual 调用非私有实例方法、invokeinterface 调用接口方法以及 invokedynamic 调用动态方法。对于 invokestatic 以及 invokespecial 而言，JVM 能够直接识别具体的目标方法，而对于 invokevirtual 和 invokeinterface 而言，在绝大多数情况下，JVM 需要在执行过程中，根据调用者的动态类型来确定具体的目标方法。唯一的例外在于，如果虚拟机能够确定目标方法有且只有一个，比如方法被 final 修饰，那么它就可以不通过动态类型，直接确定目标方法。
+
+上面所说的 invokespecial、invokeinterface 也被称为虚方法调用或者说动态绑定，相比于直接能定位方法的静态绑定而言，虚方法调用更加耗时。JVM 采用了一种空间换时间的策略来实现动态绑定。它为每个类生成一张方法表，用于快速定位目标方法，这个发生在类加载的准备阶段。方法表本质上是一个数组，它有两个特性，首先是子类方法表中包含父类方法表中所有的方法，其次是子类方法在方法表中的索引，与它所重写的父类方法的索引值相同。我们知道，方法调用指令中的符号引用会在执行之前解析为实际引用。对于静态绑定的方法调用而言，实际引用将指向具体的方法，对于动态绑定而言，实际引用则是方法表的索引值。
+
+JVM 也提供了内联缓存来加快动态绑定，它能够缓存虚方法调用中调用者的动态类型，以及该类型所对应的目标方法。
+
 ## JVM的结构
 
 ![](https://user-gold-cdn.xitu.io/2020/4/13/171729fc868d44b7?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
 首先通过编译器把 Java 代码转换成字节码，类加载器（ClassLoader）再把字节码加载到内存中，将其放在运行时数据区（Runtime data area）的方法区内，而字节码文件只是 JVM 的一套指令集规范，并不能直接交给底层操作系统去执行，因此需要特定的命令解析器执行引擎（Execution Engine），将字节码翻译成底层系统指令，再交由 CPU 去执行，而这个过程中需要调用其他语言的本地库接口（Native Interface）来实现整个程序的功能。
+
+
+Java 中的运行时数据可以划分为两部分，一部分是线程私有的，包括虚拟机栈、本地方法栈、程序计数器，另一部分是线程共享的，包括方法区和堆。
+
+程序计数器是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。虚拟机栈描述的是 Java 方法执行的内存模型，每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、动态链接地址、方法出口等信息。每一个方法从调用直至执行完成的过程，就对应着一个栈桢在虚拟机中入栈和出栈的过程。本地方法栈和虚拟机栈所发挥的作用是非常相似的，只不过本地方法栈描述的是 Native 方法执行的内存模型。
+
+Java 堆是所有线程共享的一块数据区域，主要用来存放对象实例。它也是垃圾收集器管理的主要区域，从内存回收的角度来看，由于现代收集器基本上都采用分代回收，所以 Java 堆还可以细分为新生代和老年代。再细致一点还可以把新生代划分为 Eden 区、From Survivor 区和 To Survivor 区。从内存分配的角度来看，线程共享的 Java 堆中可能划分为多个线程私有的分配缓冲区 TLAB。不过不论如何划分，都与存放内容无关，无论哪个区域，存放的都是对象实例，进一步划分的目的是为了更好的回收内存或者更快的分配内存。方法区是用于存储已被虚拟机加载的类信息、常量、静态变量、即使编译器编译后的代码等数据。相对而言，垃圾回收在这个区域是比较少出现的。运行时常量池是方法区的一部分，它用来存储编译期生成的各种字面量和符号引用。运行时常量池相比 Class 文件常量池一个重要的特点是具备动态性，也就是在运行期间也可能将新的常量放入池中，比如 String 的 intern 方法。
+
+在 Java 6 版本中，永久代在非堆内存区；到了 Java 7 版本，永久代的静态变量和运行时常量池被合并到了堆中；而到了 Java 8，永久代被元空间取代了。很多开发者都习惯将方法区称为 “永久代”，其实两者并不是等价的。HotSpot 虚拟机只是使用永久代来实现方法区，但是在 Java 8 已经将方法区中实现的永久代去掉了，并用元空间替换，元空间的存储位置是本地内存。那么 Java 8 为什么使用元空间替换永久代呢？这样做有什么好处嘛？
+
+官方给出的解释是：移除永久代是为了融合 HotSpot JVM 和 JRockit VM 而做出的努力，因为 JRockit 没有永久代，所以不需要配置永久代；其次，永久代内存经常不够用，易 OOM。这是因为在 Java 7 中，指定的 PermGen 区大小为 8M，由于 PermGen 中类的元数据信息在每次 FullGC 的时候回收率都偏低，而且为 PermGen 分配多大的空间很难确定，PermSize 的大小依赖于很多因素，比如 JVM 加载的 class 总数、常量池的大小和方法的大小等等。
 
 ## 运行时数据区
 
@@ -2704,9 +2822,27 @@ TLAB会浪费空间。
 
 3、永久代会为 GC 带来不必要的复杂度，并且回收效率偏低。
 
+## Java对象的创建
+
+在虚拟机遇到一条 new 指令时，首先将去检查这个指令的参数是否能在常量池中定位到一个类的符号引用，并且检查这个符号引用代表的类是否已经被加载过了，如果没有就走类加载流程。在类加载检查通过之后，虚拟机就会为新生对象分配内存，对象所需内存在类加载完成之后就确定了。为对象分配内存空间就等同于把一块确定大小的内存从 Java 堆中划分出来。分配方式有指针碰撞和空闲列表两种，选择哪种分配方式由 Java 堆是否规整决定，而 Java 堆是否规整又由所采用的垃圾收集器是否具有压缩整理功能决定。对象创建在虚拟机是非常频繁的行为，即使是仅仅修改了一个指针指向的位置，在并发情况下也不是线程安全的。解决方案有两种，一种是采用 CAS 配上失败重试，另一种是使用线程私有的分配缓冲区 TLAB。
+
 ## 类加载过程
 
 ![](https://user-gold-cdn.xitu.io/2020/2/22/1706abac42fee7f4?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+
+虚拟机把描述类的数据从 Class 文件加载到内存，并对数据进行校验、解析和初始化，最终形成可以被虚拟机直接使用的 Java 对象，这就是虚拟机的类加载机制。
+
+类加载流程分为五个阶段，分别是加载、验证、准备、解析和初始化。
+
+加载阶段，就是通过一个类的全限定名来获取定义此类的二进制字节流，将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。加载阶段是开发人员可控性最强的阶段，因为开发人员可以自定义类加载器。对于数组而言，情况有所不同，数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建。
+
+验证是链接阶段的第一步，这一阶段的目的是为了确保 Class 文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。它包括文件格式校验、元数据校验、字节码校验等。
+
+准备阶段是正式为类变量分配内存并设置类变量初始值的阶段，这些变量所使用的内存都将在方法区中进行分配。需要注意的是，这时候进行内存分配的仅仅包含类变量，不包括实例变量，实例变量将会在对象实例化时随着对象一起分配在 Java 堆上。其次，这里所说的变量初始值是该数据类型的零值。
+
+解析阶段是虚拟机将常量池内的符号引用替换为直接引用的过程。符号引用以一组符号来描述所引用的目标，直接引用可以是直接指向目标的指针。
+
+初始化阶段是执行类构造器`<clinit>()`方法的过程。`<clinit>()`方法是由编译器自动收集类中的所有类变量的赋值动作和静态语句块中的语句合并产生的，编译器收集的顺序是由语句在源文件中出现的顺序所决定的。虚拟机会保证一个类的`<clinit>()`方法在多线程环境中被正确的加锁同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的`<clinit>()`方法，其他线程都需要阻塞等待，这也是静态内部类能实现单例的主要原因之一。
 
 **1.加载(Loading):**
 
@@ -2757,23 +2893,42 @@ TLAB会浪费空间。
 
 初始化阶段就是执行**类构造器方法**<clinit>()的过程，此方法不需要定义，是javac编译器自动收集类中的所有类变量的赋值动作和静态代码块中的语句合并而来，构造器方法中指令按语句在源文件中出现的顺序执行。若该类具有父类，JVM会保证子类的`<clinit>()`执行前，父类的`<clinit>()`已经执行完毕，虚拟机必须保证一个类的`<clinit>()`方法在多线程下被同步加锁。
 
-## 判断对象是否可以被回收
+## 判断对象是否可以被回收的方法
 
-**引用计数器法**：
+引用计数法就是给对象添加一个引用计数器，每当有一个地方引用时就加一，引用失效时就减一。引用计数实现简单，判断效率也很高，但是 JVM 并没有采用引用计数来管理内存，其中最主要的原因是它很难解决对象之间的相互循环引用问题。可达性分析的思路是通过一系列称为 GC Roots 的对象作为起始点，从这些起始点出发向下搜索，当有一个对象到 GC Roots 没有任何引用链时，即不可达，则说明此对象是不可用的。在 Java 中，可作为 GC Roots 的对象有虚拟机栈和本地方法栈中引用的对象、方法区中类静态属性引用的对象、方法区中常量引用的对象等。
 
-为每个对象创建一个引用计数，有对象引用时计数器 +1，引用被释放时计数 -1，当计数器为 0 时就可以被回收。它有一个缺点不能解决循环引用的问题
+## 内存分配回收策略
 
-**可达性分析**：
+内存分配回收策略包含三点：
 
-从GC Roots开始向下搜索，搜索所走过的路径称为引用链。当一个对象到GC Roots没有任何引用链相连时，则证明此对象是可以被回收的。
+1. 对象优先在 Eden 区分配
+
+准确的来说，是优先在 Eden 区的 TLAB 上分配，如果 Eden 区没有足够的空间进行分配时，就会触发一次 Minor GC。
+
+2. 大对象直接进入老年代
+
+所谓的大对象是指需要连续大量内存空间的 Java 对象，比如数组，一般来说，超过 3M 的对象会直接在老年代进行分配。
+
+3. 长期存活的对象进入老年代
+
+既然虚拟机采用了分代收集的思想来管理内存，那么内存回收就必须得识别哪些对象应放在新生代还是老年代。为了做到这一点，虚拟机给每个对象定义了一个对象年龄计数器。如果对象在 Eden 出生并经过一次 Minor GC 后仍然存活，并且能被 Survivor 容纳的话，将会被移到 Survivor 空间中，并且对象年龄设置为 1.对象每在 Survivor 区熬过一次 Minor GC，年龄就会增加 1。当年龄增加到一定程度，默认是 15，就将会晋升到老年代中。
+
+## 对象的内存布局
+
+在HotSpot虚拟机中，对象在内存中的布局可以分为3块区域：对象头，实例数据，对齐填充。对象头包括两部分信息，第一部分用于存储对象自身的运行时数据，另一部分是类型指针。实例数据部分是对象真正存储的有效信息。对齐填充部分不是必然存在的，仅仅起占位作用。HotSpot虚拟机要求对象的大小必须是8字节的整数倍，不足的部分需要通过对齐填充补全。
+
+## 对象的访问定位
+
+java程序需要通过栈上的reference数据来操作堆上的具体对象。对象的访问方式由虚拟机实现而定，目前主流的访问方式有使用句柄和直接指针两种。如果使用句柄的话，java堆中将会划出一块内存来作为句柄池，reference中存储的是对象的句柄地址，而句柄中包含了对象实例数据和类型数据各自的具体地址信息。如果使用直接指针访问，那么java堆对象的布局中就必须考虑如何放置访问类型数据的相关信息，而reference中存储的直接就是对象地址。
 
 ## 可以作为GC Roots的对象
 
-- 被启动类（bootstrap加载器）加载的类和创建的对象
-- JavaStack中的引用的对象(栈内存中引用的对象)。
-- 方法区中静态引用指向的对象。
-- 方法区中常量引用指向的对象。
-- Native方法中JNI引用的对象。
+- 虚拟机栈(栈帧中的本地变量表)中引用的对象
+- 本地方法栈(Native 方法)中引用的对象
+- 方法区中类静态属性引用的对象
+- 方法区中常量引用的对象
+- 所有被同步锁持有的对象
+
 
 ## 对象从年轻代进入老年代的时机
 
@@ -3085,6 +3240,120 @@ HandlerInterceptor 接口中也定义了三个方法:
 - 控制执行顺序不同：
   过滤器用@Order注解控制执行顺序，通过@Order控制过滤器的级别，值越小级别越高越先执行。拦截器默认的执行顺序，就是它的注册顺序，也可以通过Order手动设置控制，值越小越先执行。
 
+## IOC容器
+
+IOC是一种设计思想，将原本在程序中手动创建对象的控制权，交由Spring框架来管理.IOC容器是Spring用来实现IOC的载体.实际上是一个Map，其中存放各种对象。将对象之间的依赖关系交给IOC容器来管理，并由IOC容器完成对象的注入。IOC容器就像是一个工厂一样，当我们需要创建一个对象的时候，只需要配置好配置文件/注解即可.
+
+## AOP
+
+AOP是指面向切面编程，能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。
+
+Spring AOP是基于动态代理的，如果要代理的对象，实现了某个接口，那么Spring AOP会使用JDK Proxy,去创建代理对象，而对于没有实现接口的对象，使用Cglib生成一个被代理对象的子类来作为代理.
+
+## Spring AOP和AspectJ AOP的区别
+
+Spring AOP属于运行时增强，而AspectJ是编译时增强.Spring AOP基于代理,而AspectJ基于字节码操作.如果切面较少，那么两者性能差异不大，但是当切面太多的话，最好选择AspectJ,它比Spring AOP快很多.
+
+## Spring中bean的作用域
+
+总共有4种,`singleton`表示唯一bean实例，Spring中的bean默认都是单例的。`prototype`指每次请求都会创建一个新的bean实例.`request`指每一次HTTP请求都会产生一个新的bean,该bean仅在当前HTTP request内有效.`session`指每一次HTTP请求都会产生一个新的bean，该bean仅在当前HTTP session内有效。
+
+## Spring中的单例bean的线程安全问题
+
+Spring中的单例bean的确存在线程安全问题，因为当多个线程操作同一对象时，对这个对象的成员变量的写操作会存在线程安全问题，但是一般情况下，常用的`Controller`,`Service`,`Dao`这些bean是无状态的.无状态的bean不能保存数据，因此是线程安全的。常见有2种解决办法：1.在类中定义一个ThreadLocal成员变量，将需要的可变成员变量保存在ThreadLocal中 2.改变bean的作用域为`prototype`，每次请求都会创建一个新的bean实例,自然不会存在线程安全问题.
+
+## @Component和@Bean的区别
+
+主要有3点：1.作用对象不同，`@Component`注解作用于类,而`@Bean`注解作用于方法 2.`@Component`通常是通过类路径扫描来自动侦测以及自动装配到Spring容器中,`@Bean`注解通常是我们在标有该注解的方法中定义产生这个bean，当需要用它的时候还给我。3.`@Bean`注解比`@Component`注解的自定义性更强，很多地方我们只能使用`@Bean`注解来注册bean。
+
+## 将一个类声明为Spring的bean的注解
+
+`@Component`是一个通用的注解，可标注任意类为Spring组件。如果一个bean不知道属于哪个层，可以使用`@Component`注解标注. `@Repository`对应持久层，主要用于数据库相关操作。`@Service`对应服务层，主要涉及一些复杂的逻辑，需要用到DAO层。 `@Controller`对应Spring MVC控制层，主要用于接受用户请求并调用Service层返回数据给前端页面.
+
+## Spring Bean的生命周期
+
+第一，bean容器找到配置文件中Spring Bean的定义。第二，bean容器利用反射创建一个bean的实例，如果涉及到一些属性值则利用`set()`方法设置属性值。第三，检查Aware相关接口并设置相关依赖。第四，如果有和加载这个Bean的Spring容器相关的`BeanPostProcessor`对象,执行`postProcessBeforeInitialization()`方法。第五，如果bean实现了`InitializingBean`接口，执行`afterPropertiesSet()`方法。第六，如果bean在配置文件中的定义包含init-method属性，执行指定的方法。第七，如果有和加载这个bean的Spring容器相关的`BeanPostProcessor`对象，执行`postProcessAfterInitialization()`方法。第八，当要销毁bean的时候，如果bean实现了`DisposableBean`接口，执行`destory`方法.第九，当要销毁bean的时候，如果bean在配置文件中的定义包含destory-method属性，执行指定方法。
+
+![](https://camo.githubusercontent.com/bc7d32ce0850ca343b1c3ef2ee28e702c468b34d1cde970b646facde6c5ff579/687474703a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f31382d392d31372f353439363430372e6a7067)
+
+## Spring MVC的工作原理
+
+![](https://camo.githubusercontent.com/5286b702ca4eb9f100758317e237e853d9579f8f4984d5ad468636d6db89b782/687474703a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f31382d31302d31312f34393739303238382e6a7067)
+
+1. 客户端（浏览器）发送请求，直接请求到 DispatcherServlet。
+2. DispatcherServlet 根据请求信息调用 HandlerMapping，解析请求对应的 Handler。
+3. 解析到对应的 Handler（也就是我们平常说的 Controller 控制器）后，开始由 HandlerAdapter 适配器处理。
+4. HandlerAdapter 会根据 Handler 来调用真正的处理器来处理请求，并处理相应的业务逻辑。
+5. 处理器处理完业务后，会返回一个 ModelAndView 对象，Model 是返回的数据对象，View 是个逻辑上的 View。
+6. ViewResolver 会根据逻辑 View 查找实际的 View。
+7. DispaterServlet 把返回的 Model 传给 View（视图渲染）。
+8. 把 View 返回给请求者（浏览器）
+
+## Spring管理事务的方式
+
+有两种，一种是编程式事务，在代码中硬编码，另一种是声明式事务，在配置文件中配置。声明式事务又分为两种，基于XML的声明式事务和基于注解的声明式事务。
+
+## Spring事务中的隔离级别
+
+TransactionDefinition 接口中定义了五个表示隔离级别的常量：
+
+TransactionDefinition.ISOLATION_DEFAULT: 使用后端数据库默认的隔离级别，Mysql 默认采用的 REPEATABLE_READ隔离级别 Oracle 默认采用的 READ_COMMITTED隔离级别.
+TransactionDefinition.ISOLATION_READ_UNCOMMITTED: 最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读
+TransactionDefinition.ISOLATION_READ_COMMITTED: 允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生
+TransactionDefinition.ISOLATION_REPEATABLE_READ: 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。
+TransactionDefinition.ISOLATION_SERIALIZABLE: 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会用到该级别。
+
+## Spring事务的传播行为
+
+支持当前事务的情况：
+
+TransactionDefinition.PROPAGATION_REQUIRED： 如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。
+TransactionDefinition.PROPAGATION_SUPPORTS： 如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。
+TransactionDefinition.PROPAGATION_MANDATORY： 如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）
+不支持当前事务的情况：
+
+TransactionDefinition.PROPAGATION_REQUIRES_NEW： 创建一个新的事务，如果当前存在事务，则把当前事务挂起。
+TransactionDefinition.PROPAGATION_NOT_SUPPORTED： 以非事务方式运行，如果当前存在事务，则把当前事务挂起。
+TransactionDefinition.PROPAGATION_NEVER： 以非事务方式运行，如果当前存在事务，则抛出异常。
+其他情况：
+
+TransactionDefinition.PROPAGATION_NESTED： 如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于TransactionDefinition.PROPAGATION_REQUIRED。
+
+## @Transactional(rollbackFor = Exception.class)注解
+
+当@Transactional注解作用于类上时，该类的所有 public 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。如果类或者方法加了这个注解，那么这个类里面的方法抛出异常，就会回滚，数据库里面的数据也会回滚。
+
+在@Transactional注解中如果不配置rollbackFor属性,那么事务只会在遇到RuntimeException的时候才会回滚,加上rollbackFor=Exception.class,可以让事务在遇到非运行时异常时也回滚。
+
+## BeanFactory和ApplicationContext的区别
+
+BeanFactory和ApplicationContext是Spring的两大核心接口,都可以当做Spring的容器.其中ApplicationContext是BeanFactory的子接口。
+
+BeanFactory是Spring里面最底层的接口，包含各种Bean的定义，读取bean配置文档，管理bean的加载，实例化，控制bean的生命周期，维护bean之间的依赖关系。ApplicationContext接口作为beanFactory的派生，除了beanFactory所具有的功能外，还提供了国际化，统一的资源文件访问方式，在监听器中注册bean的事件，同时加载多个配置文件，载入多个有继承关系的上下文的功能。
+
+在bean的注入方面，BeanFactory采用延迟加载的方式来注入bean，这样不能发现一些存在的Spring的配置问题。ApplicationContext是在容器启动时一次性创建所有的bean，有利于检查所依赖属性是否注入。不足的是Application占用了较多的内存空间，当应用程序配置bean较多时，程序启动较慢。
+
+BeanFactory通常以编程的方式被创建，ApplicationContext还能以声明的方式创建，如使用ContextLoader.
+
+BeanFactory和ApplicationContext都支持BeanPostProcessor,BeanFactoryPostProcessor的使用。但两者之间的区别是:BeanFactory需要手动注册，而ApplicationContext则是自动注册.
+
+## getBean方法的实现原理
+
+Spring容器启动的时候会解析applicationContext.xml,将xml中定义的bean解析成Spring内部的BeanDefinition,并以beanName为key，BeanDefinition为value存储到DefaultListableBeanFactory中的beanDefinitionMap属性中(其实它就是一个ConcurrentHashMap类型的属性)，同时将beanName存入beanDefinitionNames中(List类型)，然后遍历beanDefinitionNames中的beanName，进行bean的实例化并填充属性，在实例化的过程中，如果有依赖没有被实例化将先实例化其依赖，然后实例化本身，实例化完成后将实例存入单例bean的缓存中，当调用getBean方法时，到单例bean的缓存中查找，如果找到并经过转换后返回这个实例(如AuthService的实例)，之后就可以直接使用了。
+
+## xml文件的解析过程
+
+代码中指定要加载的xml文件后，Spring容器初始化的过程中，通过ResourceLoader接口实现类，将xml文件路径转换成对应的Resource文件，然后通过DocumentLoader对Resource文件进行转换，转换成Document文件，接着通过DefaultBeanDefinitionDocumentReader对Document进行解析，并使用BeanDefinitionParserDelegate对元素进行解析，解析xml中bean定义的各个元素，存入BeanDefinition中。
+
+## Spring的一些基本类
+
+BeanDefinition是Spring内部用来描述对象的类信息的数据结构，例如类名，scope,属性，构造函数参数列表，依赖的bean，是否是单例类，是否是懒加载等。
+
+DefaultListableBeanFactory是整个Bean加载的核心部分，是Spring注册以及加载Bean的默认实现。
+
+BeanFactory是用于访问Spring Bean容器的根接口，是一个单纯的bean工厂，也就是ioc容器的顶层定义。
+
+
 ## IOC容器的组成部分
 
 - 入口: `AnnotationConfigApplicationContext`
@@ -3121,6 +3390,10 @@ IOC容器的最简单功能：先扫描出要放入容器的 bean，将其包装
 ### refresh()方法
 
 ![](https://note.youdao.com/yws/api/personal/file/76AE8FEDAFF54B6881C336B056AC5B0A?method=download&shareKey=430f5263180efd8467df6e6434456f3d)
+
+![](https://note.youdao.com/yws/api/personal/file/WEBa49ba40e62e9552ca85cb891f53ea666?method=getImage&version=7995&cstk=UhSGmtah)
+
+Spring IOC的启动主要是依赖于`AbstractApplicationContext`类中的`refresh()`方法.该方法首先调用`prepareRefresh()`进行一些准备工作，然后调用`obtainFreshBeanFactory()`获取之前创建的BeanFactory，并将配置文件解析成一个个Bean定义,注册到BeanFactory中。
 
 ## Spring AOP全部通知执行顺序
 
@@ -3337,6 +3610,14 @@ LIMIT <limit_number>
 
 ![](https://user-gold-cdn.xitu.io/2020/7/14/1734bff368752ece?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
+## InnoDB页结构
+
+![](https://camo.githubusercontent.com/8d173a835cfd2d47bc5090a82a81f211e7849121cd141b7f5acf6cb9da9ce583/687474703a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f31382d31302d322f32383535393432312e6a7067)
+
+InnoDB页大小总共为16kb，包含6个部分，头38字节为File Header,存储跟页面有关的信息，接下来56字节为Page Header表示数据页中存储的记录的状态信息，接下来一部分为行记录，其中头26字节为两个虚拟的伪记录分别表示页中的最小和最大记录，接下来是记录行，接下来一部分是空闲空间，最后还有两部分是page directory和file tailer，page directory是存储每一组的最大记录号的偏移地址，便于查找。file tailer是用来检验页是否完整，固定占用8字节。
+
+默认情况下各个数据页组成一个双向链表。每个数据页中的记录又可以组成一个单向链表。每个数据页都会为存储在它里面的记录生成一个页目录，在通过主键查找某条记录的时候可以在页目录中使用二分法快速定位到对应的槽，然后再遍历该槽对应分组中的记录即可快速找到指定记录。如果以其他列为搜索条件，只能从最小记录开始依次遍历单链表中的每条记录。
+
 ## 关于索引的sql语句
 
 - 创建索引:`CREATE [UNIQUE] INDEX indexName ON mytable(username(length))`
@@ -3417,7 +3698,14 @@ B+树和B树类似，但多了几条规则
 
 ## B+Tree索引和Hash索引区别
 
-哈希索引适合等值查询，但是不无法进行范围查询 哈希索引没办法利用索引完成排序 哈希索引不支持多列联合索引的最左匹配规则 如果有大量重复键值得情况下，哈希索引的效率会很低，因为存在哈希碰撞问题
+1. 哈希索引适合等值查询，但是无法进行顺序和范围查询  
+2. 哈希索引不支持多列联合索引的最左匹配规则 如果有大量重复键值得情况下，哈希索引的效率会很低，因为存在哈希碰撞问题
+
+## B树和B+树的区别
+
+1. B树的所有节点既存放key也存放data,而B+树只有叶子节点存放key和data，其他内节点只存放key
+2. B树的叶节点都是独立的，B+树的叶子节点有一条引用链指向与它相邻的叶子节点。
+3. B树的检索过程相当于对范围内的每个节点的关键字做二分查找，可能还没有到达叶子节点，检索就结束了而B+树的检索效率较稳定，任何查找都是从根节点到叶子节点的过程。
 
 ## 为什么不建议使用订单号作为主键?
 
@@ -3440,9 +3728,12 @@ InnoDB的一个页可以为索引页，也可以为数据页。
 
 由于节子节点(数据页)只能按照一颗B+树排序，故**一张表只能有一个聚簇索引**。辅助索引的存在不影响聚簇索引中数据的组织，所以一张表可以有多个辅助索引
 
-## MyISAM主键索引和辅助索引的结构
+## MyISAM和InnoDB实现BTree索引方式的区别
 
-MyISAM引擎索引结构的叶子节点的数据域，存放的并不是实际的数据记录，而是数据记录的地址。
+MyISAM中B+Tree叶节点的data域存放的是数据记录的地址。在索引检索的时候，首先按照B+Tree搜索算法搜索索引，如果指定的Key存在，则取出其 data 域的值，然后以 data 域的值为地址读取相应的数据记录。这被称为“非聚簇索引”。
+
+InnoDB其数据文件本身就是索引文件。相比MyISAM，索引文件和数据文件是分离的，其表数据文件本身就是按B+Tree组织的一个索引结构，树的叶节点data域保存了完整的数据记录。这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。这被称为“聚簇索引（或聚集索引）”，而其余的索引都作为辅助索引，辅助索引的data域存储相应记录主键的值而不是地址，这也是和MyISAM不同的地方。在根据主索引搜索时，直接找到key所在的节点即可取出数据；在根据辅助索引查找时，则需要先取出主键的值，在走一遍主索引。 因此，在设计表的时候，不建议使用过长的字段作为主键，也不建议使用非单调的字段作为主键，这样会造成主索引频繁分裂。
+
 
 ![](https://img2018.cnblogs.com/i-beta/1464190/201911/1464190-20191106145143172-1760681728.png)
 
@@ -3462,6 +3753,10 @@ MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记�
 
 1. 在辅助索引上检索列值，到达其叶子节点获取对应的主键
 2. 使用主键在主索引上再进行对应的检索操作
+
+## 最左前缀原则
+
+如果查询的时候查询条件精确匹配索引的左边连续一列或几列，则此列就可以被用到。如果查询时两个条件都用上了，但是顺序不同，那么现在的查询引擎会自动优化为匹配联合索引的顺序。
 
 ## full-text全文索引
 
@@ -4556,6 +4851,95 @@ class Solution {
         return res;
     }
 }
+```
+
+## 最短无序连续子数组(T581)
+
+```
+/**
+ * @BelongsProject: study
+ * @BelongsPackage: PACKAGE_NAME
+ * @Author: Alone
+ * @CreateTime: 2021-02-25 23:30
+ * @Description:
+ */
+public class T581 {
+
+    /**
+     * 双指针
+     * 思路：将整个数组分为3段，左右两段都是排好序的，中间一段乱序的，目的在于找到左端最大的和右端最小的
+     * 维护左端最大值和右端最小值，遍历数组，当数组当前值小于最大值时说明它应该在左端，反之则应改变最大值大小
+     * @param nums
+     * @return
+     */
+    public int findUnsortedSubarray(int[] nums) {
+        int begin = 0, end = -1;
+        int min = nums[nums.length - 1], max = nums[0];
+        for (int i = 0; i < nums.length; i++) {
+            if(nums[i] < max) {
+                end = i;
+            } else {
+                max = nums[i];
+            }
+            if(nums[nums.length - i - 1] > min) {
+                begin = nums.length - i - 1;
+            } else {
+                min = nums[nums.length - i - 1];
+            }
+        }
+        return end - begin + 1;
+    }
+
+    public static void main(String[] args) {
+        T581 t581 = new T581();
+        System.out.println(t581.findUnsortedSubarray(new int[]{1, 2, 3, 4}));
+    }
+}
+
+```
+
+## T538
+
+```
+/**
+ * @BelongsProject: study
+ * @BelongsPackage: PACKAGE_NAME
+ * @Author: Alone
+ * @CreateTime: 2021-02-26 10:21
+ * @Description:
+ */
+public class T538 {
+
+    /**
+     * 反向中序遍历
+     */
+    int sum = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+        if(root == null) {
+            return null;
+        }
+        convertBST(root.right);
+        sum += root.val;
+        root.val = sum;
+        convertBST(root.left);
+        return root;
+    }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode() {}
+    TreeNode(int val) { this.val = val; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
 ```
 
 # 还没看完的文章
